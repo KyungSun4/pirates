@@ -23,42 +23,42 @@ var mapw = 10000;
 var maph = 10000;
 
 var ctypes = [{
-            range: 1000, //machine gun
-            btype: 1,
-            type: 0,
-            reload: 19,
-        }, {
-            range: 1000, //big cannon
-            btype: 0,
-            type: 1,
-            reload: 30,
-        }, {
-            range: 1000, //small canon
-            btype: 0,
-            type: 2,
-            reload: 20,
-        }, {
-            range: 1000, //catapult
-            btype: 0,
-            type: 3,
-            reload: 20,
-        }, {
-            range: 1000, //med missle
-            btype: 1,
-            type: 3,
-            reload: 20,
-        }, {
-            range: 1000, //big missle
-            btype: 1,
-            type: 4,
-            reload: 10,
-        },
-        range: 1000, //yammato cannon
-        btype: 1,
-        type: 5,
-        reload: 10,
-    },
-];
+    range: 1000, //machine gun
+    btype: 1,
+    type: 0,
+    reload: 19,
+}, {
+    range: 1000, //big cannon
+    btype: 0,
+    type: 1,
+    reload: 30,
+}, {
+    range: 1000, //small canon
+    btype: 0,
+    type: 2,
+    reload: 20,
+}, {
+    range: 1000, //catapult
+    btype: 0,
+    type: 3,
+    reload: 20,
+}, {
+    range: 1000, //med missle
+    btype: 1,
+    type: 3,
+    reload: 20,
+}, {
+    range: 1000, //big missle
+    btype: 1,
+    type: 4,
+    reload: 10,
+}, {
+    range: 1000, //yammato cannon
+    btype: 1,
+    type: 5,
+    reload: 10,
+
+}, ];
 var btypes = [{
     width: 8,
     height: 8,
@@ -1281,7 +1281,7 @@ var Player = function(id, name) {
         mobile: false,
         name: name,
         id: id,
-        money: 10000,
+        money: 50,
         death: false,
         gstate: 1,
         selected: 0,
@@ -2335,7 +2335,7 @@ Player.onconnect = function(socket, name) {
             } else if (data.number == 3) {
                 //buytype(selship, 4);
             }
-        }  else if (selship.type == 7) {
+        } else if (selship.type == 7) {
             if (data.number == 1) {
                 buytype(selship, 16);
             } else if (data.number == 2) {

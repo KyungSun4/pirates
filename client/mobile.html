@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        canvas {
+            display: block;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #999;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 20;
+            margin: auto;
+            width: 20%;
+        }
+
+        #nameIn {
+            width: 100%;
+            border-color: black;
+            border-radius: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="text" id="nameIn" placeholder="Enter Name">
+    </div>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+        'use strict';
+        var touchscreen = true;
+        var start = false;
+        var keystate;
+        var canvas, ctx,
+            canX = [],
+            canY = [],
+            mouseIsDown = 0,
+            len = 0;
+        var tttouch = 0;
+        var width;
+        var height;
+        var ctx;
+        var canvas;
+        var id;
+        var gstate;
+        var scale = 1;
+        var selected = 0;
+        var seltype = 0;
+        //var back = new Image();
+        //back.src = '/client/img/mapgame.png';
+
+        var img = new Image();
+        img.src = "/client/img/sprites.png";
+        var bimg = new Image();
+        bimg.src = "/client/img/buttons.png";
+        var patern = new Image();
+        patern.src = "/client/img/patern.png";
+        var count = 0;
+        var deathcount = 0;
+        var mapw = 10000;
+        var maph = 10000;
+        var mappw = 400;
+        var mapph = 400;
+        var go = false;
+        /*
+        1 rowboat
+        */
+        var idata = {};
+        var bsprite = [{
+            x: 376, //0
+            y: 192,
+        }, {
+            x: 8, //1
+            y: 100,
+        }, {
+            x: 8, //2
+            y: 8,
+        }, {
+            x: 100, //3
+            y: 100,
+        }, {
+            x: 8, //4
+            y: 192,
+        }, {
+            x: 100, //5
+            y: 192,
+        }, {
+            x: 100, //6
+            y: 8,
+        }, {
+            x: 284, //7
+            y: 8,
+        }, {
+            x: 8, //8
+            y: 8,
+        }, {
+            x: 376, //9
+            y: 100,
+        }, {
+            x: 192, //10
+            y: 8,
+        }, {
+            x: 284, //11
+            y: 100,
+        }, {
+            x: 192, //12
+            y: 192,
+        }, {
+            x: 560, //13
+            y: 100,
+        }, {
+            x: 468, //14
+            y: 100,
+        }, {
+            x: 192, //15
+            y: 100,
+        }, {
+            x: 376, //16
+            y: 8,
+        }, {
+            x: 836, //17
+            y: 192,
+        }, {
+            x: 468, //18
+            y: 8,
+        }, {
+            x: 652, //19
+            y: 100,
+        }, {
+            x: 100, //20
+            y: 284,
+        }, {
+            x: 192, //21
+            y: 284,
+        }, {
+            x: 376, //22
+            y: 284,
+        }, {
+            x: 284, //23
+            y: 284,
+        }, {
+            x: 8, //24
+            y: 284,
+        }, {
+            x: 468, //25
+            y: 284,
+        }, {
+            x: 560, //26
+            y: 284,
+        }, {
+            x: 652, //27
+            y: 284,
+        }, {
+            x: 744, //28
+            y: 284,
+        }, {
+            x: 744, //29 //STILL NEED
+            y: 284,
+        }, {
+            x: 744, //30 ///STRILL NEED
+            y: 284,
+        }, ]
+        var myships = [];
+        var psprite = [{
+            x: 6, // jet
+            y: 1558,
+            x2: 88,
+            y2: 1558,
+            x3: 170,
+            y3: 1558,
+
+        }, {
+            x: 6, // heli
+            y: 2312,
+            x2: 92,
+            y2: 2312,
+        }]
+        var pbsprite = [{
+            x: 560,
+            y: 192,
+        }, {
+            x: 560,
+            y: 8,
+        }]
+        var csprite = [{
+            x: 6, //machine gun
+            y: 1624,
+            width: 14,
+            height: 6,
+        }, {
+            x: 6, //big cannon
+            y: 2158,
+            width: 18,
+            height: 14,
+        }, {
+            x: 6, //small canon
+            y: 2192,
+            width: 12,
+            height: 10,
+        }, {
+            x: 6, //catapult
+            y: 2218,
+            width: 28,
+            height: 14,
+            x2: 68,
+            y2: 2218,
+
+        }, {
+            x: 6, //med missle
+            y: 2252,
+            width: 12,
+            height: 10,
+        }, {
+            x: -2, //big missle
+            y: 2278,
+            width: 22,
+            height: 14,
+        }, {
+            x: 6, //yamato cannon
+            y: 3550,
+            width: 30,
+            height: 18,
+        }, ];
+        console.log(csprite);
+        var sprites = [{
+            x1: 6,
+            y1: 6,
+            x2: 108,
+            y2: 6,
+            x3: 210,
+            y3: 6
+        }, {
+            //1raft
+            x: 6,
+            y: 96,
+        }, {
+            //2small ship
+            x: 6,
+            y: 146,
+        }, {
+            //3S mil
+            x: 6,
+            y: 220,
+        }, {
+            //4 s sub
+            x: 6,
+            y: 316,
+        }, {
+            //5 m sub
+            x: 6,
+            y: 382,
+        }, {
+            //6 m pirate
+            x: 6,
+            y: 464,
+        }, {
+            //7 L pirate
+            x: 6,
+            y: 562,
+        }, {
+            //8 M mil extinct
+            x: 6,
+            y: 692,
+        }, {
+            //9 carrier
+            x: 6,
+            y: 766,
+        }, {
+            //10 XL pirate
+            x: 6,
+            y: 1040,
+        }, {
+            //11 smaill carrier
+            x: 6,
+            y: 1188,
+        }, { //12 blakc sub
+            x: 6,
+            y: 1346,
+        }, { //13 battle ship
+            x: 6,
+            y: 1460,
+        }, {
+            //14 destroyer heli 1
+            x: 6,
+            y: 1642,
+        }, {
+            //15 helli boat
+            x: 6,
+            y: 1732,
+        }, {
+            //16 saracuse
+            x: 6,
+            y: 1822,
+        }, {
+            //17 argo
+            x: 6,
+            y: 2020,
+        }, {
+            //18 black pearl
+            x: 6,
+            y: 2378,
+        }, {
+            //19 bismark
+            x: 6,
+            y: 2524,
+        }, {
+            //20 attack sub
+            x: 6,
+            y: 2634,
+        }, {
+            //21 cruise missle sub
+            x: 6,
+            y: 2716,
+        }, {
+            //22 litoral combat ship
+            x: 6,
+            y: 2838,
+        }, {
+            //23 sloop
+            x: 6,
+            y: 2940,
+        }, {
+            //24 ZHENGHE
+            x: 6,
+            y: 3014,
+        }, {
+            //25 USS MISSOURI
+            x: 6,
+            y: 3184,
+        }, {
+            //26 Yamato
+            x: 6,
+            y: 3290,
+        }, {
+            //27 USS Hunley
+            x: 6,
+            y: 3420,
+        }, {
+            //28 UBOAT
+            x: 6,
+            y: 3786,
+        }, {
+            //29 Corvette
+            x: 6,
+            y: 3860,
+        }, {
+            //30 Destroyer v3
+            x: 6,
+            y: 3942,
+        }, ]
+
+        var bulsprite = [{
+            x: 6, //0
+            y: 294
+        }, {
+            x: 6, //1
+            y: 2920
+        }, {
+            x: 6, //2 Catapult cannonball
+            y: 3489,
+        }, {
+            x: 6, //3 Big canon ball
+            y: 3520,
+        }]
+
+        var coin = {
+            x: 6,
+            y: 1170,
+            width: 6,
+            height: 6,
+        };
+
+        var me = {
+
+        }
+        var setbuttons = function() {
+            control.update();
+            Buttons.list['startmobile'].x = width / 2 - 3.14 * width / 20;
+            Buttons.list['startmobile'].y = height / 2 - width / 20;
+            Buttons.list['startmobile'].width = 3.14 * width / 10;
+            Buttons.list['startmobile'].height = width / 10;
+            Buttons.list['startreg'].x = width / 2 - 3.14 * width / 20;
+            Buttons.list['startreg'].y = height / 2 - width / 5;
+            Buttons.list['startreg'].width = 3.14 * width / 10;
+            Buttons.list['startreg'].height = width / 10;
+            Buttons.list['button1'].x = width - height / 7;
+            Buttons.list['button1'].y = 0;
+            Buttons.list['button1'].width = height / 7;
+            Buttons.list['button1'].height = height / 7;
+            Buttons.list['button2'].x = width - height / 7;
+            Buttons.list['button2'].y = height / 7;
+            Buttons.list['button2'].width = height / 7;
+            Buttons.list['button2'].height = height / 7;
+            Buttons.list['button3'].x = width - height / 7;
+            Buttons.list['button3'].y = 2 * height / 7;
+            Buttons.list['button3'].width = height / 7;
+            Buttons.list['button3'].height = height / 7;
+            Buttons.list['button4'].x = width - height / 7;
+            Buttons.list['button4'].y = 3 * height / 7;
+            Buttons.list['button4'].width = height / 7;
+            Buttons.list['button4'].height = height / 7;
+            Buttons.list['button5'].x = width - height / 7;
+            Buttons.list['button5'].y = 4 * height / 7;
+            Buttons.list['button5'].width = height / 7;
+            Buttons.list['button5'].height = height / 7;
+            Buttons.list['button6'].x = width - height / 7;
+            Buttons.list['button6'].y = 5 * height / 7;
+            Buttons.list['button6'].width = height / 7;
+            Buttons.list['button6'].height = height / 7;
+            Buttons.list['plus'].x = control.width;
+            Buttons.list['plus'].y = 11 * height / 12;
+            Buttons.list['plus'].width = height / 12;
+            Buttons.list['plus'].height = height / 12;
+            Buttons.list['minus'].x = control.width + height / 12;
+            Buttons.list['minus'].y = 11 * height / 12;
+            Buttons.list['minus'].width = height / 12;
+            Buttons.list['minus'].height = height / 12;
+            Buttons.list['mode0'].x = width - 5 * height / 7;
+            Buttons.list['mode0'].y = 6 * height / 7;
+            Buttons.list['mode0'].width = height / 7;
+            Buttons.list['mode0'].height = height / 7;
+            Buttons.list['mode1'].x = width - 4 * height / 7;
+            Buttons.list['mode1'].y = 6 * height / 7;
+            Buttons.list['mode1'].width = height / 7;
+            Buttons.list['mode1'].height = height / 7;
+            Buttons.list['mode2'].x = width - 3 * height / 7;
+            Buttons.list['mode2'].y = 6 * height / 7;
+            Buttons.list['mode2'].width = height / 7;
+            Buttons.list['mode2'].height = height / 7;
+            Buttons.list['mode3'].x = width - 2 * height / 7;
+            Buttons.list['mode3'].y = 6 * height / 7;
+            Buttons.list['mode3'].width = height / 7;
+            Buttons.list['mode3'].height = height / 7;
+        }
+        var Water = function(x, y, width) {
+            var self = {
+                time: 0,
+                x: x,
+                y: y,
+                width: width,
+            }
+            Water.list[Math.random()] = self;
+            return self;
+        }
+        Water.list = {};
+
+        var Buttons = function(x, y, width, height, clickfunction, name, gamestate) {
+            var self = {
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+                clickfunction: clickfunction,
+                name: name,
+                gamestate: gamestate,
+                pressed: false,
+                presses: 0,
+                update: function() {
+                    self.presses = 0;
+                    if (self.name == 'plus' || self.name == 'minus') {
+                        ctx.fillStyle = "white";
+
+                        ctx.fillRect(self.x, self.y, self.width, self.height);
+
+                    }
+                    if (self.name == 'startreg') {
+                        ctx.drawImage(bimg, 8, 560, 264, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'startmobile') {
+                        ctx.drawImage(bimg, 8, 652, 264, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'button4') {
+                        ctx.drawImage(bimg, 376, 192, 84, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'button5') {
+                        ctx.drawImage(bimg, 468, 192, 84, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'button6') {
+                        ctx.drawImage(bimg, 284, 192, 84, 84, self.x, self.y, self.width, self.height);
+                    } else if (seltype == 5) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[12].x, bsprite[12].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[21].x, bsprite[21].y, 84, 84, self.x, self.y, self.width, self.height);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, bsprite[20].x, bsprite[20].y, 84, 84, self.x, self.y, self.width, self.height);
+                        }
+                    } else if (seltype == 4) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[5].x, bsprite[5].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[27].x, bsprite[27].y, 84, 84, self.x, self.y, self.width, self.height);
+                        }
+                        if (self.name == 'button3') {
+                            //buytype(selship, 4);
+                        }
+                    } else if (seltype == 27) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[28].x, bsprite[28].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                        }
+                        if (self.name == 'button2') {
+                          //  ctx.drawImage(bimg, bsprite[27].x, bsprite[27].y, 84, 84, self.x, self.y, self.width, self.height);
+                        }
+                        if (self.name == 'button3') {
+                            //buytype(selship, 4);
+                        }
+                    } else if (seltype == 7) {
+                        if (self.name == 'button1') {
+
+                            ctx.drawImage(bimg, bsprite[16].x, bsprite[16].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[18].x, bsprite[18].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 18);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, bsprite[4].x, bsprite[4].y, 84, 84, self.x, self.y, self.width, self.height);
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 6) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[7].x, bsprite[7].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 7);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[10].x, bsprite[10].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 10);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, bsprite[1].x, bsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 2) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[6].x, bsprite[6].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 6);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[23].x, bsprite[23].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                            ////buytype(selship, 14);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, bsprite[17].x, bsprite[17].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 9) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[13].x, bsprite[13].y, 84, 84, self.x, self.y, self.width, self.height);
+                            ////buytype(selship, 13);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, pbsprite[0].x, bsprite[0].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buyplane(selship, 0);
+                            ////buytype(selship, 14);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buyplane(selship, 1);
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 14) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[13].x, bsprite[13].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 13);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            ////buytype(selship, 14);
+                        }
+                        if (self.name == 'button3') {
+                            //ctx.drawImage(bimg, bsprite[1].x, bsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 11) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[9].x, bsprite[9].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 9);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, pbsprite[0].x, pbsprite[0].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                            ////buytype(selship, 14);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 15) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[11].x, bsprite[11].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 11);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[22].x, bsprite[22].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 14);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 29) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[30].x, bsprite[30].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 11);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 14);
+                        }
+                        if (self.name == 'button3') {
+
+
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 0) {
+                        if (self.name == 'button1') {
+
+                            ctx.drawImage(bimg, bsprite[1].x, bsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                        }
+                        if (self.name == 'button2') {
+
+                            ctx.drawImage(bimg, bsprite[2].x, bsprite[2].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 2);
+                        }
+                        if (self.name == 'button3') {
+
+                            ctx.drawImage(bimg, bsprite[4].x, bsprite[4].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 4);
+                        }
+                    } else if (seltype == 3) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[15].x, bsprite[15].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 15);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[29].x, bsprite[29].y, 84, 84, self.x, self.y, self.width, self.height);
+                            ////buytype(selship, 2);
+                        }
+                        if (self.name == 'button3') {
+                            //ctx.drawImage(bimg, bsprite[4].x, bsprite[4].y, 84, 84, self.x, self.y, self.width, self.height);
+                            ////buytype(selship, 4);
+                        }
+                    } else if (seltype == 1) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[3].x, bsprite[3].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 3);
+                        }
+                        if (self.name == 'button2') {
+                            //ctx.drawImage(bimg, bsprite[2].x, bsprite[2].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 2);
+                        }
+                        if (self.name == 'button3') {
+                            //ctx.drawImage(bimg, bsprite[4].x, bsprite[4].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 4);
+                        }
+                    } else if (seltype == 13) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[19].x, bsprite[19].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 3);
+                        }
+                        if (self.name == 'button2') {
+                            ctx.drawImage(bimg, bsprite[25].x, bsprite[25].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //ctx.drawImage(bimg, bsprite[2].x, bsprite[2].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 2);
+                        }
+                        if (self.name == 'button3') {
+                            ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //ctx.drawImage(bimg, bsprite[4].x, bsprite[4].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 4);
+                        }
+                    } else if (seltype == 10) {
+                        if (self.name == 'button1') {
+                            ctx.drawImage(bimg, bsprite[24].x, bsprite[24].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 3);
+                        }
+                        if (self.name == 'button2') {
+                            //ctx.drawImage(bimg, bsprite[1].x, bsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //ctx.drawImage(bimg, bsprite[2].x, bsprite[2].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 2);
+                        }
+                        if (self.name == 'button3') {
+                            //ctx.drawImage(bimg, pbsprite[1].x, pbsprite[1].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //ctx.drawImage(bimg, bsprite[4].x, bsprite[4].y, 84, 84, self.x, self.y, self.width, self.height);
+                            //buytype(selship, 4);
+                        }
+                    }
+
+                    if (self.name == 'mode0') {
+                        ctx.drawImage(bimg, 744, 100, 84, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'mode1') {
+                        ctx.drawImage(bimg, 836, 100, 84, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'mode2') {
+                        ctx.drawImage(bimg, 652, 192, 84, 84, self.x, self.y, self.width, self.height);
+                    } else if (self.name == 'mode3') {
+                        ctx.drawImage(bimg, 836, 8, 84, 84, self.x, self.y, self.width, self.height);
+                    }
+                    for (var q = 0; q < len; q++) {
+                        if (canY[q] > self.y && canY[q] < self.y + self.height && canX[q] > self.x && canX[q] < self.x + self.width && mouseIsDown) {
+                            self.presses++;
+                            if (!self.pressed) {
+                                console.log(self.pressed);
+                                if (self.name == 'button1' || self.name == 'button2' || self.name == 'button3' || self.name == 'button4' || self.name == 'button5' || self.name == 'button6' || self.name == 'mode0' || self.name == 'mode1' ||
+                                    self.name == 'mode2' || self.name == 'mode3') {
+                                    ctx.drawImage(bimg, 652, 8, 84, 84, self.x, self.y, self.width, self.height);
+                                }
+                                if (self.name == 'startreg' || self.name == 'startmobile') {
+                                    ctx.drawImage(bimg, 284, 560, 264, 84, self.x, self.y, self.width, self.height);
+                                }
+                                self.clickfunction();
+                            }
+                        }
+                    }
+                    if (self.presses == 0) {
+                        self.pressed = false;
+                    } else {
+                        self.pressed = true;
+                    }
+                }
+            }
+            Buttons.list[self.name] = self;
+            return self;
+        }
+        Buttons.list = {};
+
+
+
+
+        /* */
+
+
+        var control = {
+            width: width / 3,
+            height: width / 3,
+            x: 0,
+            y: height - (width / 3),
+            draw: function() {
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            },
+            update: function() {
+                this.width = width / 3;
+                this.height = width / 3;
+                this.y = height - (width / 3);
+            }
+        }
+
+
+
+
+        /* */
+
+
+
+        var TO_RADIANS = Math.PI / 180;
+
+
+        function drawRotatedImage(x, y, width, height, angle, spriteX, spriteY) {
+            //function drawRotatedImage(image, x, y, angle)
+
+            // save the current co-ordinate system
+            // before we screw with it
+            ctx.save();
+            // move to the middle of where we want to draw our image
+            ctx.translate(x, y);
+            // rotate around that point, converting our
+            // angle from degrees to radians
+            ctx.rotate(angle);
+            // draw it up and to the left by half the width
+            // and height of the image
+
+
+            ctx.drawImage(img, spriteX, spriteY, width * 2, height * 2, -width * scale / 2, -height * scale / 2, width * scale, height * scale);
+
+            //ctx.fillRect(-width / 2, -height / 2, width, height);
+            //                                ctx.drawImage(image, -(image.width/2), -(image.height/2));
+            // and restore the co-ords to how they were when we began
+            ctx.restore();
+        }
+
+
+        //Touch Control Functions
+        function mouseUp() {
+            mouseIsDown = 0;
+            mouseXY();
+        }
+
+        function mouseDown() {
+            mouseIsDown = 1;
+            mouseXY();
+        }
+
+        function touchDown() {
+            mouseIsDown = 1;
+            touchXY();
+            tttouch = 1;
+        }
+
+        function touchUp(e) {
+            if (!e)
+                e = event;
+            len = e.targetTouches.length;
+            tttouch = 0;
+            mouseIsDown = 0;
+        }
+
+
+        function mouseXY(e) {
+            if (!e)
+                e = event;
+            canX[0] = e.pageX - canvas.offsetLeft;
+            canY[0] = e.pageY - canvas.offsetTop;
+            len = 1;
+        }
+
+        function touchXY(e) {
+            if (!e)
+                e = event;
+            e.preventDefault();
+            len = e.targetTouches.length;
+            for (var i = 0; i < len; i++) {
+                canX[i] = e.targetTouches[i].pageX - canvas.offsetLeft;
+                canY[i] = e.targetTouches[i].pageY - canvas.offsetTop;
+            }
+        }
+
+        function init() {
+            canvas = document.createElement("canvas");
+
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            if (!(!!canvas.getContext && canvas.getContext("2d"))) {
+                alert("Your browser doesn't support HTML5, please update to latest version");
+            }
+            document.body.appendChild(canvas);
+            ctx = canvas.getContext("2d");
+
+            //Control Setup
+            keystate = {};
+            // keyboard control
+            document.addEventListener("keydown", function(evt) {
+                keystate[evt.keyCode] = true;
+            });
+            document.addEventListener("keyup", function(evt) {
+                delete keystate[evt.keyCode];
+            });
+            //touch control
+            canvas.addEventListener("mousedown", mouseDown, false);
+            canvas.addEventListener("mousemove", mouseXY, false);
+            document.addEventListener("touchstart", touchDown, false);
+            canvas.addEventListener("touchend", touchUp, false);
+            canvas.addEventListener("touchmove", touchXY, false);
+            document.addEventListener("touchcancel", touchUp, false);
+            document.addEventListener("mouseup", mouseUp, false);
+
+            if (localStorage.getItem('fleetsname') !== null) {
+                name = localStorage.getItem('fleetsname')
+                console.log('welcome ' + name);
+                document.getElementById("nameIn").value = name;
+
+            }
+            var startf = function() {
+
+                console.log(document.getElementById('nameIn').value);
+                start = true;
+                document.getElementById('nameIn').style.visibility = "hidden";
+                name = document.getElementById('nameIn').value;
+                localStorage.setItem('fleetsname', name);
+                socket.emit('start', name);
+                for (var i = 0; i < 1000; i++) {
+                    Water(Math.random() * mapw, Math.random() * maph, 5 + Math.random() * 10);
+                }
+            }
+            var startmobilef = function() {
+                startf();
+                touchscreen = true;
+
+            }
+
+            var startregf = function() {
+                startf();
+                touchscreen = false;
+            }
+
+            var button1f = function() {
+                socket.emit('button', {
+
+                    number: 1,
+                });
+
+            }
+            var button2f = function() {
+                socket.emit('button', {
+
+                    number: 2,
+                });
+
+            }
+            var button3f = function() {
+                socket.emit('button', {
+
+                    number: 3,
+                });
+            }
+            var button4f = function() {
+                socket.emit('button', {
+
+                    number: 4,
+                });
+            }
+            var button5f = function() {
+                socket.emit('button', {
+
+                    number: 5,
+                });
+            }
+            var button6f = function() {
+                socket.emit('button', {
+
+                    number: 6,
+                });
+            }
+            var mode0f = function() {
+                socket.emit('button', {
+
+                    number: 7,
+                });
+            }
+            var mode1f = function() {
+                socket.emit('button', {
+
+                    number: 8,
+                });
+            }
+            var mode2f = function() {
+                socket.emit('button', {
+
+                    number: 9,
+                });
+            }
+            var mode3f = function() {
+                socket.emit('button', {
+
+                    number: 10,
+                });
+            }
+            var plusf = function() {
+                scale = scale * 1.1;
+                socket.emit('resize', {
+                    width: width / scale,
+                    height: height / scale,
+                });
+            }
+            var minusf = function() {
+                scale = scale / 1.1;
+                socket.emit('resize', {
+                    width: width / scale,
+                    height: height / scale,
+                });
+            }
+
+
+
+
+            var button = Buttons(width / 2 - width / 20, height / 2 - width / 40, width / 10, width / 20, startmobilef, 'startmobile', 0);
+            var button = Buttons(width / 2 - width / 20, height / 2 - width / 10, width / 10, width / 20, startregf, 'startreg', 0);
+            var button = Buttons(7 * width / 8, 0, width / 8, width / 8, button1f, 'button1', 1);
+            var button = Buttons(7 * width / 8, width / 8, width / 8, width / 8, button2f, 'button2', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, button3f, 'button3', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, button4f, 'button4', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, button5f, 'button5', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, button6f, 'button6', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, plusf, 'plus', 2);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, minusf, 'minus', 2);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, mode0f, 'mode0', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, mode1f, 'mode1', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, mode2f, 'mode2', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, mode3f, 'mode3', 1);
+            setbuttons();
+            socket.emit('resize', {
+                width: width / scale,
+                height: height / scale,
+            });
+        }
+
+
+
+
+
+
+
+        var socket = io();
+        socket.on('id', function(data) {
+            id = data;
+            selected = id;
+            console.log(id);
+        });
+        socket.on('dead', function(dstate) {
+            if (dstate) {
+                location.reload();
+                console.log('test');
+            }
+        });
+        socket.on('newPoisitions', function(data) {
+
+            idata = data;
+
+            go = true;
+        });
+        var draw = function(data) {
+            myships = [];
+
+
+            //console.log(start);
+            if (start) {
+                //ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = 'white';
+                //ctx.fillRect(0, 0, width, height);
+                //ctx.drawImage(back, (-me.x + (width / 2)), (-me.y + (height / 2)), 10000, 10000);
+                ctx.fillStyle = "#33B2FF";
+                //ctx.drawImage(back, 0, 0, mapw, maph, (-me.x + (width / 2)), (-me.y + (height / 2)), mapw, maph);
+                //ctx.fillRect((-me.x + (width / 2)), (-me.y + (height / 2)), mapw, maph);
+
+
+                for (var i = 0; i < data.ship.length; i++) {
+
+                    ctx.fillStyle = 'black';
+                    var relx = width / 2;
+                    var rely = height / 2;
+                    if (data.ship[i].playerid == id && data.ship[i].leader == true) {
+                        myships.push({
+                            id: data.ship[i].id,
+                            x: relx,
+                            y: rely,
+                            width: data.ship[i].width,
+                            height: data.ship[i].height,
+                        })
+
+
+                        me.x = data.ship[i].x * scale;
+                        me.y = data.ship[i].y * scale;
+                        me.width = data.ship[i].width;
+                        me.height = data.ship[i].height;
+                        me.angle = data.ship[i].angle;
+                        me.money = data.ship[i].money;
+                        me.maxhealth = data.ship[i].maxhealth;
+                        me.health = data.ship[i].health;
+                        me.color = data.ship[i].color;
+
+                        seltype = data.ship[i].seltype;
+                        gstate = data.ship[i].gstate;
+                        if (!data.ship[i].death) {
+                            /*
+                                                        var mcw = Math.ceil(width / (mappw * scale)) + 1;
+                                                        var mch = Math.ceil(height / (mapph * scale)) + 1;
+
+                                                        var x = -(me.x / (mappw * scale) - Math.floor(me.x / (mappw * scale))) * mappw * scale + width / 2 - (Math.floor(mcw / 2)) * mappw * scale;
+                                                        var y = -(me.y / (mapph * scale) - Math.floor(me.y / (mapph * scale))) * mapph * scale + height / 2 - (Math.floor(mch / 2)) * mapph * scale;
+
+                                                        for (var h = 0; h < mcw + 1; h++) {
+                                                            for (var j = 0; j < mch + 1; j++) {
+                                                                ctx.drawImage(patern, 0, 0, 400, 400, x + h * mappw * scale, y + j * mapph * scale, mappw * scale, mapph * scale);
+                                                                //ctx.drawImage(patern, 0, 0, mappw, mapph, - me.x + (width / 2)+h * mappw, - me.y + (height / 2)+j * mapph, 100, 100);
+
+                                                            }
+
+                                                        }
+                                                        */
+                            ctx.fillStyle = "#2696ff";
+                            ctx.fillRect(0, 0, width, height);
+
+                            if (me.x - (width / 2) - (width / 2) < 0) {
+                                ctx.fillStyle = 'yellow';
+                                ctx.fillRect(0 - me.x + (width / 2) - (width / 2), 0, (width / 2), height);
+                            }
+                            if (me.y - (height / 2) - (height / 2) < 0) {
+                                ctx.fillStyle = 'yellow';
+                                ctx.fillRect(0, 0 - me.y + (height / 2) - (height / 2), width, (height / 2));
+                            }
+
+                            if (me.x + (width / 2) > mapw * scale) {
+                                ctx.fillStyle = 'yellow';
+                                ctx.fillRect(mapw * scale - me.x + (width / 2), 0, (width / 2), height);
+                            }
+                            if (me.x + (width / 2) > mapw * scale) {
+                                ctx.fillStyle = 'yellow';
+                                ctx.fillRect(mapw * scale - me.x + (width / 2), 0, (width / 2), height);
+                            }
+                            if (me.y + (height / 2) > maph * scale) {
+                                ctx.fillStyle = 'yellow';
+                                ctx.fillRect(0, maph * scale - me.y + (height / 2), width, (height / 2));
+                            }
+                            ctx.fillStyle = "white";
+                            for (var u = 0; u < data.wake.length; u++) {
+
+
+                                ctx.globalAlpha = 1 - (data.wake[u].time / 50);
+                                if (data.wake[u].x * scale - me.x + (width / 2) > 0 && data.wake[u].x * scale - me.x + (width / 2) < width && data.wake[u].y * scale - me.y + (height / 2) > 0 && data.wake[u].y * scale - me.y + (height / 2) <
+                                    height) {
+                                    ctx.fillRect(data.wake[u].x * scale - me.x + (width / 2), data.wake[u].y * scale - me.y + (height / 2), scale * 5, scale * 5);
+                                }
+                            }
+
+                            for (var o in Water.list) {
+                                var water = Water.list[o];
+
+                                if (water.x * scale - me.x + (width / 2) > 0 && water.x * scale - me.x + (width / 2) < width && water.y * scale - me.y + (height / 2) > 0 && water.y * scale - me.y + (height / 2) <
+                                    height) {
+                                    ctx.globalAlpha = -water.time * Math.pow(water.time - 400, 3) / 2700000000;
+                                    ctx.fillRect(water.x * scale - me.x + (width / 2), water.y * scale - me.y + (height / 2), scale * water.width, scale * 5);
+                                }
+                                water.time += Math.random() * 10;
+
+                                if (water.time > 400) {
+                                    water.x = Math.random() * mapw;
+                                    water.y = Math.random() * maph;
+                                    water.time = 0;
+                                    water.width = 5 + Math.random() * 10;
+                                }
+
+                            }
+
+                            ctx.globalAlpha = 1;
+
+
+                            ctx.fillStyle = 'black';
+                            ctx.fillRect(width - height / 7, 6 * height / 7, height / 7, height / 7);
+                            ctx.font = "14px Georiga";
+                            ctx.fillText(me.money, 30, 30);
+                            if (data.ship[i].type == 0) {
+                                if (data.ship[i].frame == 1) {
+                                    drawRotatedImage(width / 2, height / 2, data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x1, sprites[0].y1);
+                                };
+                                if (data.ship[i].frame == 2) {
+                                    drawRotatedImage(width / 2, height / 2, data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x2, sprites[0].y2);
+                                };
+                                if (data.ship[i].frame == 3) {
+                                    drawRotatedImage(width / 2, height / 2, data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x3, sprites[0].y3);
+                                }
+                            }
+                            if (data.ship[i].type > 0) {
+                                drawRotatedImage(width / 2, height / 2, data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[data.ship[i].type].x, sprites[data.ship[i].type].y);
+
+                            }
+                            //console.log(data.ship[i].cannons)
+                            for (var r = 0; r < data.ship[i].cannons.length; r++) {
+                                var ctype = data.ship[i].cannons[r].type;
+                                //console.log(data.ship[i].cannons);
+                                drawRotatedImage(data.ship[i].cannons[r].x * scale - me.x + (width / 2), data.ship[i].cannons[r].y * scale - me.y + (height / 2), csprite[ctype].width, csprite[ctype].height, data.ship[i].cannons[r].angle,
+                                    csprite[ctype].x, csprite[ctype].y);
+                            }
+
+                            if (data.ship[i].planes != undefined) {
+
+                                for (var r = 0; r < data.ship[i].planes.length; r++) {
+                                    var ctype = data.ship[i].planes[r].type;
+
+                                    if (data.ship[i].planes[r].type == 1) {
+                                        if (data.ship[i].planes[r].frame == 1) {
+                                            drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                    i]
+                                                .planes[
+                                                    r].angle * TO_RADIANS,
+                                                psprite[ctype].x, psprite[ctype].y);
+                                        }
+                                        if (data.ship[i].planes[r].frame == 2) {
+                                            drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                    i]
+                                                .planes[
+                                                    r].angle * TO_RADIANS,
+                                                psprite[ctype].x2, psprite[ctype].y2);
+                                        }
+                                    }
+                                    if (data.ship[i].planes[r].type == 0) {
+                                        if (data.ship[i].planes[r].frame == 1) {
+                                            drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                    i]
+                                                .planes[
+                                                    r].angle * TO_RADIANS,
+                                                psprite[ctype].x, psprite[ctype].y);
+                                        }
+                                        if (data.ship[i].planes[r].frame == 2) {
+                                            drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                    i]
+                                                .planes[
+                                                    r].angle * TO_RADIANS,
+                                                psprite[ctype].x2, psprite[ctype].y2);
+                                        }
+                                        if (data.ship[i].planes[r].frame == 3) {
+                                            drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                    i]
+                                                .planes[
+                                                    r].angle * TO_RADIANS,
+                                                psprite[ctype].x3, psprite[ctype].y3);
+                                        }
+                                    }
+                                    ctx.fillStyle = 'white';
+                                    ctx.fillRect(data.ship[i].planes[r].x * scale - me.x + (width / 2) - ((data.ship[i].planes[r].maxhealth * scale / 100) * width / 28), data.ship[i].planes[r].y * scale - me.y + (height / 2) - (data.ship[i].planes[
+                                            r].width / 2) * scale - (width / 30) * scale,
+                                        (data.ship[
+                                            i].planes[r].maxhealth * scale / 100) * width / 14,
+                                        width * scale / 100);
+                                    ctx.fillStyle = data.ship[i].color;
+                                    ctx.fillRect(data.ship[i].planes[r].x * scale - me.x + (width / 2) - ((data.ship[i].planes[r].maxhealth * scale / 100) * width / 28), data.ship[i].planes[r].y * scale - me.y + (height / 2) - (data.ship[i].planes[
+                                            r].width / 2) * scale - (width / 30) * scale,
+                                        (data.ship[
+                                            i].planes[r].health * scale / 100) * width / 14,
+                                        width * scale / 100);
+                                }
+                            }
+
+                        } else {
+                            //alert('YOU WERE KILLED!');
+
+                        }
+
+
+                    }
+                }
+                for (var i = 0; i < data.ship.length; i++) {
+
+                    if (data.ship[i].playerid !== id) {
+                        if (data.ship[i].type == 0) {
+                            if (data.ship[i].frame == 1) {
+                                drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x1, sprites[0].y1);
+                            }
+                            if (data.ship[i].frame == 2) {
+                                drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x2, sprites[0].y2);
+                            }
+                            if (data.ship[i].frame == 3) {
+                                drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x3, sprites[0].y3);
+                            }
+                        }
+                        if (data.ship[i].type > 0) {
+                            drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[data.ship[i].type].x,
+                                sprites[data.ship[i].type].y);
+
+                        }
+                        var txt = data.ship[i].name.substring(0, 30);
+                        ctx.font = 14 * scale + "px Georgia";
+                        ctx.fillStyle = 'white';
+                        ctx.fillText(txt, data.ship[i].x * scale - me.x + (width / 2) - (ctx.measureText(txt).width / 2), data.ship[i].y * scale - me.y + (height / 2) - ((data.ship[i].width / 2) + 14 + width / 40) * scale);
+
+                        ctx.fillRect(data.ship[i].x * scale - me.x + (width / 2) - ((data.ship[i].maxhealth * scale / 100) * width / 28), data.ship[i].y * scale - me.y + (height / 2) - (data.ship[i].width / 2) * scale - (width / 30) * scale,
+                            (data.ship[
+                                i].maxhealth * scale / 100) * width / 14,
+                            width * scale / 100);
+                        ctx.fillStyle = data.ship[i].color;
+                        ctx.fillRect(data.ship[i].x * scale - me.x + (width / 2) - ((data.ship[i].maxhealth * scale / 100) * width / 28), data.ship[i].y * scale - me.y + (height / 2) - (data.ship[i].width / 2) * scale - (width / 30) * scale,
+                            (data.ship[
+                                i].health * scale / 100) * width / 14,
+                            width * scale / 100);
+
+                        if (data.ship[i].planes != undefined) {
+
+                            for (var r = 0; r < data.ship[i].planes.length; r++) {
+                                var ctype = data.ship[i].planes[r].type;
+
+                                if (data.ship[i].planes[r].type == 1) {
+                                    if (data.ship[i].planes[r].frame == 1) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x, psprite[ctype].y);
+                                    }
+                                    if (data.ship[i].planes[r].frame == 2) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x2, psprite[ctype].y2);
+                                    }
+                                }
+                                if (data.ship[i].planes[r].type == 0) {
+                                    if (data.ship[i].planes[r].frame == 1) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x, psprite[ctype].y);
+                                    }
+                                    if (data.ship[i].planes[r].frame == 2) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x2, psprite[ctype].y2);
+                                    }
+                                    if (data.ship[i].planes[r].frame == 3) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x3, psprite[ctype].y3);
+                                    }
+                                }
+                                ctx.fillStyle = 'white';
+                                ctx.fillRect(data.ship[i].planes[r].x * scale - me.x + (width / 2) - ((data.ship[i].planes[r].maxhealth * scale / 100) * width / 28), data.ship[i].planes[r].y * scale - me.y + (height / 2) - (data.ship[i].planes[
+                                        r].width / 2) * scale - (width / 30) * scale,
+                                    (data.ship[
+                                        i].planes[r].maxhealth * scale / 100) * width / 14,
+                                    width * scale / 100);
+                                ctx.fillStyle = data.ship[i].color;
+                                ctx.fillRect(data.ship[i].planes[r].x * scale - me.x + (width / 2) - ((data.ship[i].planes[r].maxhealth * scale / 100) * width / 28), data.ship[i].planes[r].y * scale - me.y + (height / 2) - (data.ship[i].planes[
+                                        r].width / 2) * scale - (width / 30) * scale,
+                                    (data.ship[
+                                        i].planes[r].health * scale / 100) * width / 14,
+                                    width * scale / 100);
+                            }
+                        }
+
+                        for (var r = 0; r < data.ship[i].cannons.length; r++) {
+                            var ctype = data.ship[i].cannons[r].type;
+                            //console.log(data.ship[i].cannons);
+                            drawRotatedImage(data.ship[i].cannons[r].x * scale - me.x + (width / 2), data.ship[i].cannons[r].y * scale - me.y + (height / 2), csprite[ctype].width, csprite[ctype].height, data.ship[i].cannons[r].angle, csprite[
+                                ctype].x, csprite[ctype].y);
+                        }
+
+
+
+                        //ctx.fillText(txt, data.ship[i].x - me.x + (width / 2) - ctx.measureText(txt) / 2, data.ship[i].y - me.y + (height / 2) - data.ship[i].width);
+                    }
+
+                    if (data.ship[i].playerid == id && data.ship[i].leader == false) {
+
+                        var relx = data.ship[i].x * scale - me.x + (width / 2);
+                        var rely = data.ship[i].y * scale - me.y + (height / 2);
+
+                        if (data.ship[i].playerid == id) {
+                            myships.push({
+                                id: data.ship[i].id,
+                                x: relx,
+                                y: rely,
+                                width: data.ship[i].width,
+                                height: data.ship[i].height,
+                            })
+                        }
+                        if (data.ship[i].type == 0) {
+                            if (data.ship[i].frame == 1) {
+                                drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x1, sprites[0].y1);
+                            }
+                            if (data.ship[i].frame == 2) {
+                                drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x2, sprites[0].y2);
+                            }
+                            if (data.ship[i].frame == 3) {
+                                drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[0].x3, sprites[0].y3);
+                            }
+                        }
+                        if (data.ship[i].type > 0) {
+                            drawRotatedImage(data.ship[i].x * scale - me.x + (width / 2), data.ship[i].y * scale - me.y + (height / 2), data.ship[i].width, data.ship[i].height, data.ship[i].angle * TO_RADIANS, sprites[data.ship[i].type].x,
+                                sprites[data.ship[i].type].y);
+
+                        }
+                        /*var txt = data.ship[i].name.substring(0, 30);
+                        ctx.font = "14px Georgia";
+                        ctx.fillStyle = 'white';
+                        ctx.fillText(txt, data.ship[i].x - me.x + (width / 2) - ctx.measureText(txt).width / 2, data.ship[i].y - me.y + (height / 2) - (data.ship[i].width / 2) - 14 - width / 40);
+*/
+                        ctx.fillStyle = 'white';
+                        ctx.fillRect(data.ship[i].x * scale - me.x + (width / 2) - ((data.ship[i].maxhealth * scale / 100) * width / 28), data.ship[i].y * scale - me.y + (height / 2) - (data.ship[i].width / 2) * scale - (width / 30) * scale,
+                            (data.ship[
+                                i].maxhealth * scale / 100) * width / 14,
+                            width * scale / 100);
+                        ctx.fillStyle = data.ship[i].color;
+                        ctx.fillRect(data.ship[i].x * scale - me.x + (width / 2) - ((data.ship[i].maxhealth * scale / 100) * width / 28), data.ship[i].y * scale - me.y + (height / 2) - (data.ship[i].width / 2) * scale - (width / 30) * scale,
+                            (data.ship[
+                                i].health * scale / 100) * width / 14,
+                            width * scale / 100);
+
+                        if (data.ship[i].planes != undefined) {
+
+                            for (var r = 0; r < data.ship[i].planes.length; r++) {
+                                var ctype = data.ship[i].planes[r].type;
+
+                                if (data.ship[i].planes[r].type == 1) {
+                                    if (data.ship[i].planes[r].frame == 1) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x, psprite[ctype].y);
+                                    }
+                                    if (data.ship[i].planes[r].frame == 2) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x2, psprite[ctype].y2);
+                                    }
+                                }
+                                if (data.ship[i].planes[r].type == 0) {
+                                    if (data.ship[i].planes[r].frame == 1) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x, psprite[ctype].y);
+                                    }
+                                    if (data.ship[i].planes[r].frame == 2) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x2, psprite[ctype].y2);
+                                    }
+                                    if (data.ship[i].planes[r].frame == 3) {
+                                        drawRotatedImage(data.ship[i].planes[r].x * scale - me.x + (width / 2), data.ship[i].planes[r].y * scale - me.y + (height / 2), data.ship[i].planes[r].width, data.ship[i].planes[r].height, data.ship[
+                                                i]
+                                            .planes[
+                                                r].angle * TO_RADIANS,
+                                            psprite[ctype].x3, psprite[ctype].y3);
+                                    }
+                                }
+                                ctx.fillStyle = 'white';
+                                ctx.fillRect(data.ship[i].planes[r].x * scale - me.x + (width / 2) - ((data.ship[i].planes[r].maxhealth * scale / 100) * width / 28), data.ship[i].planes[r].y * scale - me.y + (height / 2) - (data.ship[i].planes[
+                                        r].width / 2) * scale - (width / 30) * scale,
+                                    (data.ship[
+                                        i].planes[r].maxhealth * scale / 100) * width / 14,
+                                    width * scale / 100);
+                                ctx.fillStyle = data.ship[i].color;
+                                ctx.fillRect(data.ship[i].planes[r].x * scale - me.x + (width / 2) - ((data.ship[i].planes[r].maxhealth * scale / 100) * width / 28), data.ship[i].planes[r].y * scale - me.y + (height / 2) - (data.ship[i].planes[
+                                        r].width / 2) * scale - (width / 30) * scale,
+                                    (data.ship[
+                                        i].planes[r].health * scale / 100) * width / 14,
+                                    width * scale / 100);
+                            }
+                        }
+                        for (var r = 0; r < data.ship[i].cannons.length; r++) {
+                            var ctype = data.ship[i].cannons[r].type;
+                            //console.log(data.ship[i].cannons);
+                            drawRotatedImage(data.ship[i].cannons[r].x * scale - me.x + (width / 2), data.ship[i].cannons[r].y * scale - me.y + (height / 2), csprite[ctype].width, csprite[ctype].height, data.ship[i].cannons[r].angle, csprite[
+                                ctype].x, csprite[ctype].y);
+                        }
+
+
+
+
+                        //ctx.fillText(txt, data.ship[i].x - me.x + (width / 2) - ctx.measureText(txt) / 2, data.ship[i].y - me.y + (height / 2) - data.ship[i].width);
+                    }
+                    if (data.ship[i].playerid == id) {
+                        ctx.fillStyle = "red";
+                        ctx.fillRect((height / 7) * data.ship[i].x / mapw + width - height / 7, (height / 7) * data.ship[i].y / maph + 6 * height / 7, 2, 2);
+
+                    } else {
+                        ctx.fillStyle = "white";
+                        ctx.fillRect((height / 7) * data.ship[i].x / mapw + width - height / 7, (height / 7) * data.ship[i].y / maph + 6 * height / 7, 2, 2);
+
+                    }
+                }
+
+                /*buotys
+                for (var i = 0; i < (maph - 4000) / 100; i++) {
+                    ctx.fillRect(2000 * scale - me.x + (width / 2), (2000 + 100 * i) * scale - me.y + (height / 2), 4 * scale, 4 * scale);
+                    ctx.fillRect((mapw - 2000) * scale - me.x + (width / 2), (2000 + 100 * i) * scale - me.y + (height / 2), 4 * scale, 4 * scale);
+                }
+                for (var i = 0; i < (mapw - 4000) / 100; i++) {
+                    ctx.fillRect((2000 + 100 * i) * scale - me.x + (width / 2), 2000 * scale - me.y + (height / 2), 4 * scale, 4 * scale);
+                    ctx.fillRect((2000 + 100 * i) * scale - me.x + (width / 2), (maph - 2000) * scale - me.y + (height / 2), 4 * scale, 4 * scale);
+                }
+*/
+
+
+
+
+
+                for (var i = 0; i < data.bullet.length; i++) {
+                    ctx.fillStyle = 'black';
+                    drawRotatedImage(data.bullet[i].x * scale - me.x + (width / 2), data.bullet[i].y * scale - me.y + (height / 2), data.bullet[i].width, data.bullet[i].height, data.bullet[i].angle, bulsprite[data.bullet[i].type].x, bulsprite[
+                        data.bullet[i].type].y);
+                    //console.log(data[i].speed);
+                    //console.log(data[i].speed)
+                    //console.log(data.bullet.length);
+                }
+
+
+
+                for (var i = 0; i < data.coin.length; i++) {
+                    if (data.coin[i].x * scale - me.x + (width / 2) > 0 && data.coin[i].x * scale - me.x + (width / 2) < width && data.coin[i].y * scale - me.y + (height / 2) > 0 && data.coin[i].y * scale - me.y + (height / 2) < height) {
+                        ctx.fillStyle = 'black';
+                        ctx.drawImage(img, coin.x, coin.y, 12, 12, data.coin[i].x * scale - me.x + (width / 2), data.coin[i].y * scale - me.y + (height / 2), coin.width * scale, coin.height * scale);
+                        //drawRotatedImage(data.coin[i].x * scale - me.x + (width / 2), data.coin[i].y * scale - me.y + (height / 2), data.coin[i].width, data.coin[i].height, 0, coin.x, coin.y);
+                    }
+                    //ctx.fillRect(data.coin[i].x - me.x + (width / 2), data.coin[i].y - me.y + (height / 2), 10, 10)
+
+                    //drawRotatedImage(data.bullet[i].x - me.x + (width / 2), data.bullet[i].y - me.y + (height / 2), data.bullet[i].width, data.bullet[i].height, data.bullet[i].angle, cannonball.x, cannonball.y);
+                    //console.log(data[i].speed);
+                    //console.log(data[i].speed)
+                    //console.log(data.bullet.length);
+                }
+
+                for (var i = 0; i < data.ship.length; i++) {
+
+                }
+
+                ctx.fillRect(width / 2 - (((me.maxhealth / 100) * width / 14) / 2), 0, (me.maxhealth / 100) * width / 14, width / 100);
+                ctx.fillStyle = me.color;
+                ctx.fillRect(width / 2 - (((me.health / 100) * width / 14) / 2), 0, (me.health / 100) * width / 14, width / 100);
+
+                ctx.fillStyle = 'white';
+
+                for (var i in Buttons.list) {
+                    var button = Buttons.list[i];
+                    if (button.gamestate == 1 && gstate == 1) {
+                        button.update();
+                    }
+                    if (touchscreen && button.gamestate == 2) {
+
+                        button.update();
+                    }
+                    //console.log(Buttons.list[i]);
+                }
+
+
+
+
+                if (touchscreen) {
+                    control.draw();
+                }
+            }
+
+        }
+
+
+
+        //resize canvas
+
+
+
+        window.onresize = function() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            socket.emit('resize', {
+                width: width / scale,
+                height: height / scale,
+            });
+            setbuttons();
+
+
+            /*
+            var button = Buttons(width / 2 - width / 20, height / 2 - width / 40, width / 10, width / 20, startmobilef, 'startmobile', 0);
+            var button = Buttons(width / 2 - width / 20, height / 2 - width / 10, width / 10, width / 20, startregf, 'startreg', 0);
+            var button = Buttons(7 * width / 8, 0, width / 8, width / 8, button1f, 'button1', 1);
+            var button = Buttons(7 * width / 8, width / 8, width / 8, width / 8, button2f, 'button2', 1);
+            var button = Buttons(7 * width / 8, 2 * width / 8, width / 8, width / 8, button3f, 'button3', 1);
+            */
+
+        }
+
+
+
+
+
+
+        /* */
+        function main() {
+            var loop = function() {
+                if (start) {
+                    if (touchscreen) {
+                        control.update();
+
+                        count = 0;
+                        var num = 0;
+                        var cdata = {};
+                        if (len > 0) {
+                            var sdata = {};
+                            for (var i = 0; i < len; i++) {
+                                if (canX[i] < control.width && canY[i] > control.y) {
+                                    count = 1;
+                                    if (((canX[i] - (control.width / 2)) / control.width) > 0) {
+                                        cdata.x = -1 * Math.pow((canX[i] - (control.width / 2)) / control.width, 2) * 5.2;
+                                    } else {
+                                        cdata.x = 1 * Math.pow((canX[i] - (control.width / 2)) / control.width, 2) * 5.2;
+                                    }
+                                    cdata.x = -1 * Math.pow((canX[i] - (control.width / 2)) / control.width, 3) * 5.2;
+                                    cdata.y = -1 * Math.pow((canY[i] - height + (control.width / 2)) / control.height, 3) * 5.2;
+                                    //console.log(''+data.x+","+data.y)
+                                    cdata.inputId = "control";
+                                } else if (canX[i] < width - height / 7) {
+                                    num++;
+                                    sdata.x = (canX[i] + me.x - (width / 2)) / scale;
+                                    sdata.y = (canY[i] + me.y - (height / 2)) / scale;
+                                    sdata.inputId = 'shooting';
+                                    sdata.state = true;
+                                }
+                            }
+                            socket.emit('keypress', sdata);
+                            //console.log(data);
+                        } else {
+                            socket.emit('keypress', {
+                                inputId: 'shooting',
+                                state: false
+                            });
+                        }
+                        if (num == 0) {
+                            socket.emit('keypress', {
+                                inputId: 'shooting',
+                                state: false
+                            });
+                        }
+                        if (count == 0) {
+                            cdata.x = 0;
+                            cdata.y = 0;
+                            //console.log(''+data.x+","+data.y)
+                            cdata.inputId = "control";
+                        }
+                        socket.emit('keypress', cdata);
+                        //console.log(mouseIsDown);
+                    } else {
+                        if (mouseIsDown) {
+                            var data = {};
+                            for (var i = 0; i < canX.length; i++) {
+                                if (canX[i] > 0 && canY[i] > 0) {
+
+                                    data.x = (canX[i] + me.x - (width / 2)) / scale;
+                                    data.y = (canY[i] + me.y - (height / 2)) / scale;
+
+                                    data.state = true;
+                                }
+                            }
+                            data.inputId = 'shooting';
+                            socket.emit('keypress', data);
+                            //console.log(data);
+                        } else {
+                            socket.emit('keypress', {
+                                inputId: 'shooting',
+                                state: false
+                            });
+                        }
+                    }
+
+
+                    if (gstate == 2 && mouseIsDown) {
+                        for (var i = 0; i < canX.length; i++) {
+                            if (canX[i] > 0 && canY[i] > 0 && canX[i] < width - height / 7) {
+                                var data = {};
+                                data.d = Math.sqrt(Math.pow((canX[i] - width / 2) / scale, 2) + Math.pow((canY[i] - height / 2) / scale, 2));
+                                data.angle = (Math.atan2(canY[i] - height / 2, canX[i] - width / 2) / TO_RADIANS - me.angle);
+
+
+                                socket.emit('place', data);
+                            }
+                        }
+                        if (data !== {}) {
+
+                        }
+                    }
+
+                    for (var q = 0; q < canX.length; q++) {
+                        //console.log(myships);
+                        for (var i = 0; i < myships.length; i++) {
+                            if (canY[q] > myships[i].y - myships[i].height / 2 && canY[q] < myships[i].y + myships[i].height / 2 && canX[q] > myships[i].x - myships[i].width / 2 && canX[q] < myships[i].x + myships[i].width / 2 && mouseIsDown) {
+                                console.log('t');
+                                socket.emit('select', myships[i].id);
+                            }
+                        }
+                    }
+
+
+
+
+                } else {
+                    //console.log('tesfdgse');
+                    ctx.fillStyle = 'blue';
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.fillStyle = 'white';
+                    for (var i in Buttons.list) {
+                        var button = Buttons.list[i];
+                        if (button.gamestate == 0) {
+                            button.update();
+                        }
+                        //console.log(Buttons.list[i]);
+                    }
+                }
+                if (go) {
+
+                    draw(idata);
+                }
+                
+                window.requestAnimationFrame(loop, canvas);
+            }
+            window.requestAnimationFrame(loop, canvas);
+        }
+        window.onload = main();
+        //setInterval(function() {
+
+        //}, 1000 / 40);
+
+
+        /* */
+
+
+
+
+        if (document.addEventListener) {
+            // IE9, Chrome, Safari, Opera
+            document.addEventListener("mousewheel", MouseWheelHandler, false);
+            // Firefox
+            document.addEventListener("DOMMouseScroll", MouseWheelHandler, false);
+        }
+        // IE 6/7/8
+        else document.attachEvent("onmousewheel", MouseWheelHandler);
+
+
+
+
+        function MouseWheelHandler(e) {
+
+            // cross-browser wheel delta
+            e.preventDefault();
+            var e = window.event || e; // old IE support
+            var delta = Math.min(0.05, Math.max(-0.05, (e.wheelDelta || -e.detail) / 1000));
+
+            if (delta > 0) {
+                if (scale < 10) {
+
+
+                    scale = scale * (delta + 1);
+                }
+            }
+
+            if (delta < 0) {
+                if (scale > 0.1) {
+
+                    scale = scale * (delta + 1);
+                }
+            }
+            socket.emit('resize', {
+                width: width / scale,
+                height: height / scale,
+            });
+
+
+
+            return false;
+        }
+
+
+        document.onkeydown = function(event) {
+            if (event.keyCode == 68) {
+                socket.emit('keypress', {
+                    inputId: 'right',
+                    state: true
+                });
+            }
+            if (event.keyCode == 83) {
+                socket.emit('keypress', {
+                    inputId: 'down',
+                    state: true
+                });
+            }
+            if (event.keyCode == 65) {
+                socket.emit('keypress', {
+                    inputId: 'left',
+                    state: true
+                });
+            }
+            if (event.keyCode == 87) {
+                socket.emit('keypress', {
+                    inputId: 'up',
+                    state: true
+                });
+            }
+        }
+        document.onkeyup = function(event) {
+            if (event.keyCode == 68) {
+                socket.emit('keypress', {
+                    inputId: 'right',
+                    state: false
+                });
+            }
+            if (event.keyCode == 83) {
+                socket.emit('keypress', {
+                    inputId: 'down',
+                    state: false
+                });
+            }
+            if (event.keyCode == 65) {
+                socket.emit('keypress', {
+                    inputId: 'left',
+                    state: false
+                });
+            }
+            if (event.keyCode == 87) {
+                socket.emit('keypress', {
+                    inputId: 'up',
+                    state: false
+                });
+            }
+        }
+        init();
+    </script>
+</body>
+
+</html>

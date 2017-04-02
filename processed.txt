@@ -1,0 +1,440 @@
+Statistical profiling result from isolate-0x101801a00-v8.log, (8047 ticks, 66 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+   2989   37.1%          /usr/lib/system/libsystem_kernel.dylib
+   2567   31.9%          /usr/local/bin/node
+     61    0.8%          /usr/lib/system/libsystem_malloc.dylib
+     36    0.4%          /usr/lib/system/libsystem_platform.dylib
+     23    0.3%          /usr/lib/system/libsystem_c.dylib
+      8    0.1%          /usr/lib/system/libsystem_pthread.dylib
+      5    0.1%          /usr/lib/libc++abi.dylib
+      3    0.0%          /usr/lib/system/libsystem_m.dylib
+      1    0.0%          /usr/lib/system/libsystem_notify.dylib
+      1    0.0%          /usr/lib/libstdc++.6.dylib
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+   1115   13.9%   47.4%  LazyCompile: *doPolygonsIntersect /Users/John/Desktop/web/pirates/app.js:935:29
+    163    2.0%    6.9%  LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+    141    1.8%    6.0%  LazyCompile: *self.update /Users/John/Desktop/web/pirates/app.js:1200:33
+    120    1.5%    5.1%  LazyCompile: ~self.update /Users/John/Desktop/web/pirates/app.js:1003:25
+     46    0.6%    2.0%  Stub: CEntryStub
+     42    0.5%    1.8%  Stub: CallFunctionStub_Args0
+     40    0.5%    1.7%  LazyCompile: *self.update /Users/John/Desktop/web/pirates/app.js:1003:25
+     28    0.3%    1.2%  Stub: StoreArrayLiteralElementStub
+     21    0.3%    0.9%  KeyedLoadIC: A keyed load IC from the snapshot {1}
+     18    0.2%    0.8%  Stub: BinaryOpICStub {2}
+     17    0.2%    0.7%  Stub: LoadFieldStub
+     17    0.2%    0.7%  LazyCompile: *Coin.update /Users/John/Desktop/web/pirates/app.js:2567:23
+     14    0.2%    0.6%  Stub: BinaryOpICStub
+     12    0.1%    0.5%  LazyCompile: listOnTimeout timers.js:56:23
+     10    0.1%    0.4%  Stub: LoadICStub
+      9    0.1%    0.4%  LazyCompile: ~emit events.js:117:44
+      9    0.1%    0.4%  LazyCompile: ~callback zlib.js:562:20
+      9    0.1%    0.4%  KeyedLoadIC: A keyed load IC from the snapshot
+      9    0.1%    0.4%  Builtin: ArgumentsAdaptorTrampoline
+      8    0.1%    0.3%  LazyCompile: ~self.update /Users/John/Desktop/web/pirates/app.js:1200:33
+      7    0.1%    0.3%  Stub: LoadFieldStub {1}
+      6    0.1%    0.3%  Stub: InstanceofStub
+      6    0.1%    0.3%  LazyCompile: ~clearBuffer _stream_writable.js:369:21
+      6    0.1%    0.3%  LazyCompile: ~Socket.emit /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/socket.js:126:33
+      6    0.1%    0.3%  LazyCompile: *ToString native runtime.js:563:18
+      6    0.1%    0.3%  LazyCompile: *MathCosSlow native fdlibm.js:191:21
+      5    0.1%    0.2%  Stub: StoreFieldStub {9}
+      5    0.1%    0.2%  Stub: RecordWriteStub {4}
+      5    0.1%    0.2%  Stub: GrowArrayElementsStub
+      5    0.1%    0.2%  RegExp: ^(\\/?|)([\\s\\S]*?)((?:\\.{1\,2}|[^\\/]+?|)(\\.[^.\\/]*|))(?:[\\/]*)$
+      5    0.1%    0.2%  LazyCompile: ~Uint8Array native typedarray.js:122:31
+      5    0.1%    0.2%  LazyCompile: ~Socket._writeGeneric net.js:630:42
+      5    0.1%    0.2%  Handler: An IC handler from the snapshot {3}
+      5    0.1%    0.2%  Builtin: JSConstructStubGeneric
+      4    0.0%    0.2%  Stub: ToBooleanStub(Undefined,SpecObject)
+      4    0.0%    0.2%  Stub: StoreFieldStub {10}
+      4    0.0%    0.2%  LazyCompile: ~writeToEngine /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:145:25
+      4    0.0%    0.2%  LazyCompile: ~emitOne events.js:75:17
+      4    0.0%    0.2%  LazyCompile: Sender.frameAndSend /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Sender.js:139:41
+      4    0.0%    0.2%  LazyCompile: APPLY_PREPARE native runtime.js:412:37
+      4    0.0%    0.2%  LazyCompile: *wrapper timers.js:274:19
+      4    0.0%    0.2%  LazyCompile: *subarray native typedarray.js:165:28
+      4    0.0%    0.2%  LazyCompile: *Readable.read _stream_readable.js:258:35
+      4    0.0%    0.2%  Builtin: JSEntryTrampoline
+      4    0.0%    0.2%  Builtin: FunctionCall
+      3    0.0%    0.1%  Stub: StoreFastElementStub
+      3    0.0%    0.1%  Stub: LoadConstantStub {1}
+      3    0.0%    0.1%  Stub: CompareICStub {2}
+      3    0.0%    0.1%  LazyCompile: ~nextTick node.js:478:22
+      3    0.0%    0.1%  LazyCompile: ~_hasBinary /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/has-binary/index.js:25:22
+      3    0.0%    0.1%  LazyCompile: ~Zlib._processChunk zlib.js:506:40
+      3    0.0%    0.1%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/transports/websocket.js:89:62
+      3    0.0%    0.1%  LazyCompile: INSTANCE_OF native runtime.js:364:33
+      3    0.0%    0.1%  LazyCompile: *readableAddChunk _stream_readable.js:124:26
+      3    0.0%    0.1%  LazyCompile: *encodeAsString /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/index.js:147:24
+      3    0.0%    0.1%  LazyCompile: *Wake.update /Users/John/Desktop/web/pirates/app.js:2548:23
+      3    0.0%    0.1%  KeyedStoreIC: A keyed store IC from the snapshot
+      3    0.0%    0.1%  KeyedLoadIC: A keyed load IC from the snapshot {2}
+      3    0.0%    0.1%  Handler: An IC handler from the snapshot {2}
+      3    0.0%    0.1%  Handler: An IC handler from the snapshot {10}
+      2    0.0%    0.1%  Stub: ToBooleanStub
+      2    0.0%    0.1%  Stub: SubStringStub
+      2    0.0%    0.1%  Stub: StoreFieldStub {5}
+      2    0.0%    0.1%  Stub: RecordWriteStub {1}
+      2    0.0%    0.1%  Stub: LoadICStub {1}
+      2    0.0%    0.1%  Stub: LoadConstantStub {5}
+      2    0.0%    0.1%  Stub: LoadConstantStub {3}
+      2    0.0%    0.1%  Stub: LoadConstantStub {2}
+      2    0.0%    0.1%  Stub: FastNewContextStub {2}
+      2    0.0%    0.1%  Stub: FastNewContextStub {1}
+      2    0.0%    0.1%  Stub: FastNewContextStub
+      2    0.0%    0.1%  Stub: FastCloneShallowArrayStub
+      2    0.0%    0.1%  Stub: CompareICStub {3}
+      2    0.0%    0.1%  Stub: CallFunctionStub
+      2    0.0%    0.1%  Stub: CallConstructStub {1}
+      2    0.0%    0.1%  Stub: ArgumentsAccessStub
+      2    0.0%    0.1%  LazyCompile: ~send /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/WebSocket.js:210:41
+      2    0.0%    0.1%  LazyCompile: ~self.update /Users/John/Desktop/web/pirates/app.js:1116:25
+      2    0.0%    0.1%  LazyCompile: ~remove _linklist.js:28:16
+      2    0.0%    0.1%  LazyCompile: ~readableAddChunk _stream_readable.js:124:26
+      2    0.0%    0.1%  LazyCompile: ~posix.dirname path.js:529:25
+      2    0.0%    0.1%  LazyCompile: ~exports.setTimeout timers.js:178:30
+      2    0.0%    0.1%  LazyCompile: ~cleanup /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/PerMessageDeflate.js:259:19
+      2    0.0%    0.1%  LazyCompile: ~byteLength buffer.js:248:20
+      2    0.0%    0.1%  LazyCompile: ~ToObject native runtime.js:581:18
+      2    0.0%    0.1%  LazyCompile: ~Socket.sendPacket /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/socket.js:366:40
+      2    0.0%    0.1%  LazyCompile: ~Receiver.expectHeader /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Receiver.js:129:43
+      2    0.0%    0.1%  LazyCompile: ~InnerArrayJoin native array.js:317:24
+      2    0.0%    0.1%  LazyCompile: ~Client.packet /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:140:35
+      2    0.0%    0.1%  LazyCompile: ~Bullet.update /Users/John/Desktop/web/pirates/app.js:2529:25
+      2    0.0%    0.1%  LazyCompile: fs.readFileSync fs.js:384:27
+      2    0.0%    0.1%  LazyCompile: decodeString /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/index.js:274:22
+      2    0.0%    0.1%  LazyCompile: IN native runtime.js:352:15
+      2    0.0%    0.1%  LazyCompile: *send /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/WebSocket.js:210:41
+      2    0.0%    0.1%  LazyCompile: *onwrite _stream_writable.js:322:17
+      2    0.0%    0.1%  LazyCompile: *onread net.js:509:16
+      2    0.0%    0.1%  LazyCompile: *min native math.js:60:17
+      2    0.0%    0.1%  LazyCompile: *makeRequireFunction internal/module.js:7:29
+      2    0.0%    0.1%  LazyCompile: *afterWrite _stream_writable.js:350:20
+      2    0.0%    0.1%  LazyCompile: *Writable.write _stream_writable.js:193:36
+      2    0.0%    0.1%  LazyCompile: *TransformState.afterTransform _stream_transform.js:53:33
+      2    0.0%    0.1%  LazyCompile: *ToName native runtime.js:578:16
+      2    0.0%    0.1%  LazyCompile: *TickObject node.js:472:24
+      2    0.0%    0.1%  LazyCompile: *Readable.on _stream_readable.js:672:33
+      2    0.0%    0.1%  LazyCompile: *Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+      2    0.0%    0.1%  LazyCompile: *Client.packet /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:140:35
+      2    0.0%    0.1%  LazyCompile: *BufferPool.reset /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/BufferPool.js:52:38
+      2    0.0%    0.1%  Handler: String
+      2    0.0%    0.1%  Handler: An IC handler from the snapshot {8}
+      2    0.0%    0.1%  Handler: An IC handler from the snapshot {7}
+      2    0.0%    0.1%  Handler: An IC handler from the snapshot {6}
+      2    0.0%    0.1%  Handler: An IC handler from the snapshot {21}
+      2    0.0%    0.1%  Handler: An IC handler from the snapshot {20}
+      2    0.0%    0.1%  Handler: An IC handler from the snapshot {18}
+      1    0.0%    0.0%  Stub: ToBooleanStub(Undefined,String)
+      1    0.0%    0.0%  Stub: ToBooleanStub(Null,SpecObject)
+      1    0.0%    0.0%  Stub: ToBooleanStub {1}
+      1    0.0%    0.0%  Stub: StubFailureTrampolineStub
+      1    0.0%    0.0%  Stub: StoreTransitionStub
+      1    0.0%    0.0%  Stub: StoreFieldStub {8}
+      1    0.0%    0.0%  Stub: StoreFieldStub {7}
+      1    0.0%    0.0%  Stub: StoreFieldStub {6}
+      1    0.0%    0.0%  Stub: StoreFieldStub {4}
+      1    0.0%    0.0%  Stub: StoreFieldStub {3}
+      1    0.0%    0.0%  Stub: StoreFieldStub {2}
+      1    0.0%    0.0%  Stub: StoreFieldStub {1}
+      1    0.0%    0.0%  Stub: StoreFieldStub
+      1    0.0%    0.0%  Stub: RecordWriteStub {3}
+      1    0.0%    0.0%  Stub: RecordWriteStub {2}
+      1    0.0%    0.0%  Stub: RecordWriteStub
+      1    0.0%    0.0%  Stub: NameDictionaryLookupStub
+      1    0.0%    0.0%  Stub: LoadFieldStub {9}
+      1    0.0%    0.0%  Stub: LoadFieldStub {8}
+      1    0.0%    0.0%  Stub: LoadFieldStub {7}
+      1    0.0%    0.0%  Stub: LoadFieldStub {6}
+      1    0.0%    0.0%  Stub: LoadFieldStub {5}
+      1    0.0%    0.0%  Stub: LoadFieldStub {4}
+      1    0.0%    0.0%  Stub: LoadFieldStub {3}
+      1    0.0%    0.0%  Stub: LoadFieldStub {2}
+      1    0.0%    0.0%  Stub: LoadFastElementStub
+      1    0.0%    0.0%  Stub: LoadConstantStub {4}
+      1    0.0%    0.0%  Stub: LoadConstantStub
+      1    0.0%    0.0%  Stub: JSEntryStub
+      1    0.0%    0.0%  Stub: FastNewContextStub {3}
+      1    0.0%    0.0%  Stub: FastNewClosureStub
+      1    0.0%    0.0%  Stub: CompareNilICStub
+      1    0.0%    0.0%  Stub: CompareICStub {1}
+      1    0.0%    0.0%  Stub: CompareICStub
+      1    0.0%    0.0%  Stub: CallICStub(args(6), METHOD, 
+      1    0.0%    0.0%  Stub: CallFunctionStub_Args1
+      1    0.0%    0.0%  Stub: CallConstructStub
+      1    0.0%    0.0%  Stub: CallApiAccessorStub
+      1    0.0%    0.0%  Stub: CEntryStub {1}
+      1    0.0%    0.0%  Stub: BinaryOpWithAllocationSiteStub(ADD_CreateAllocationMementos:Smi*String->String)
+      1    0.0%    0.0%  Stub: BinaryOpWithAllocationSiteStub
+      1    0.0%    0.0%  Stub: BinaryOpICStub {5}
+      1    0.0%    0.0%  Stub: BinaryOpICStub {4}
+      1    0.0%    0.0%  Stub: BinaryOpICStub {1}
+      1    0.0%    0.0%  Stub: ArraySingleArgumentConstructorStub
+      1    0.0%    0.0%  Stub: ArrayBufferViewLoadFieldStub
+      1    0.0%    0.0%  StorePolymorphicIC: _pendingData
+      1    0.0%    0.0%  RegExp: ^(\\/?|)([\\s\\S]*?)((?:\\.{1\,2}|[^\\/]+?|)(\\.[^.\\/]*|))(?:[\\/]*)$ {1}
+      1    0.0%    0.0%  RegExp: (.*?)(?:[\\/]+|$)
+      1    0.0%    0.0%  LazyCompile: ~storeHeader _http_outgoing.js:302:21
+      1    0.0%    0.0%  LazyCompile: ~split native string.js:420:23
+      1    0.0%    0.0%  LazyCompile: ~self.update /Users/John/Desktop/web/pirates/app.js:1650:41
+      1    0.0%    0.0%  LazyCompile: ~removeListener events.js:272:28
+      1    0.0%    0.0%  LazyCompile: ~posix.resolve path.js:419:25
+      1    0.0%    0.0%  LazyCompile: ~onDrain /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/socket.js:323:19
+      1    0.0%    0.0%  LazyCompile: ~module.exports.BufferUtil.unmask /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/BufferUtil.fallback.js:31:19
+      1    0.0%    0.0%  LazyCompile: ~maybeReadMore_ _stream_readable.js:437:24
+      1    0.0%    0.0%  LazyCompile: ~howMuchToRead _stream_readable.js:219:23
+      1    0.0%    0.0%  LazyCompile: ~fs.readSync fs.js:585:23
+      1    0.0%    0.0%  LazyCompile: ~fs.Stats fs.js:105:20
+      1    0.0%    0.0%  LazyCompile: ~exports.encodePacket /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/lib/index.js:52:33
+      1    0.0%    0.0%  LazyCompile: ~exports._unrefActive timers.js:599:32
+      1    0.0%    0.0%  LazyCompile: ~defineProperty native v8natives.js:763:30
+      1    0.0%    0.0%  LazyCompile: ~arrayClone events.js:429:20
+      1    0.0%    0.0%  LazyCompile: ~_tickCallback node.js:336:27
+      1    0.0%    0.0%  LazyCompile: ~Zlib.flush zlib.js:432:32
+      1    0.0%    0.0%  LazyCompile: ~Zlib._transform zlib.js:476:37
+      1    0.0%    0.0%  LazyCompile: ~WebSocket.send /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/transports/websocket.js:86:37
+      1    0.0%    0.0%  LazyCompile: ~Wake.update /Users/John/Desktop/web/pirates/app.js:2548:23
+      1    0.0%    0.0%  LazyCompile: ~UseSparseVariant native array.js:89:26
+      1    0.0%    0.0%  LazyCompile: ~Socket.flush /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/socket.js:402:35
+      1    0.0%    0.0%  LazyCompile: ~SimpleSlice native array.js:250:21
+      1    0.0%    0.0%  LazyCompile: ~Readable.read _stream_readable.js:258:35
+      1    0.0%    0.0%  LazyCompile: ~PerMessageDeflate.decompress /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/PerMessageDeflate.js:226:51
+      1    0.0%    0.0%  LazyCompile: ~PerMessageDeflate.compress /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/PerMessageDeflate.js:277:49
+      1    0.0%    0.0%  LazyCompile: ~Module._nodeModulePaths module.js:188:35
+      1    0.0%    0.0%  LazyCompile: ~Module._compile module.js:366:37
+      1    0.0%    0.0%  LazyCompile: ~Module module.js:26:16
+      1    0.0%    0.0%  LazyCompile: ~InnerArraySort.aC native array.js:672:12
+      1    0.0%    0.0%  LazyCompile: ~InnerArrayForEach native array.js:924:27
+      1    0.0%    0.0%  LazyCompile: ~Emitter.emit /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/node_modules/component-emitter/index.js:126:34
+      1    0.0%    0.0%  LazyCompile: ~Coin.update /Users/John/Desktop/web/pirates/app.js:2567:23
+      1    0.0%    0.0%  LazyCompile: ~Buffer.write buffer.js:516:34
+      1    0.0%    0.0%  LazyCompile: ~ArraySlice native array.js:550:20
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> native v8natives.js:1199:16
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Sender.js:120:73
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Sender.js:119:37
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Receiver.js:340:19
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/transports/websocket.js:88:27
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+      1    0.0%    0.0%  LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/app.js:2333:35
+      1    0.0%    0.0%  LazyCompile: nextTickCallbackWithManyArgs node.js:461:42
+      1    0.0%    0.0%  LazyCompile: nextTickCallbackWith2Args node.js:439:39
+      1    0.0%    0.0%  LazyCompile: exports.decodePacket /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/lib/index.js:120:33
+      1    0.0%    0.0%  LazyCompile: Module._load module.js:271:24
+      1    0.0%    0.0%  LazyCompile: Join native array.js:102:14
+      1    0.0%    0.0%  LazyCompile: EQUALS native runtime.js:75:23
+      1    0.0%    0.0%  LazyCompile: *writeOrBuffer _stream_writable.js:262:23
+      1    0.0%    0.0%  LazyCompile: *slice buffer.js:604:40
+      1    0.0%    0.0%  LazyCompile: *remove _linklist.js:28:16
+      1    0.0%    0.0%  LazyCompile: *random native math.js:85:20
+      1    0.0%    0.0%  LazyCompile: *join native array.js:333:19
+      1    0.0%    0.0%  LazyCompile: *isNaN native v8natives.js:29:21
+      1    0.0%    0.0%  LazyCompile: *exports.active timers.js:31:26
+      1    0.0%    0.0%  LazyCompile: *doWrite _stream_writable.js:292:17
+      1    0.0%    0.0%  LazyCompile: *debugs.(anonymous function) util.js:72:29
+      1    0.0%    0.0%  LazyCompile: *addListener events.js:191:58
+      1    0.0%    0.0%  LazyCompile: *_hasBinary /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/has-binary/index.js:25:22
+      1    0.0%    0.0%  LazyCompile: *Zlib.flush zlib.js:432:32
+      1    0.0%    0.0%  LazyCompile: *WritableState.onwrite _stream_writable.js:88:26
+      1    0.0%    0.0%  LazyCompile: *WebSocket.onData /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/transports/websocket.js:74:39
+      1    0.0%    0.0%  LazyCompile: *Uint8ArrayConstructByLength native typedarray.js:76:37
+      1    0.0%    0.0%  LazyCompile: *Uint8Array native typedarray.js:122:31
+      1    0.0%    0.0%  LazyCompile: *Transform._write _stream_transform.js:145:38
+      1    0.0%    0.0%  LazyCompile: *Socket.setPingTimeout /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/socket.js:128:44
+      1    0.0%    0.0%  LazyCompile: *Socket.flush /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/lib/socket.js:402:35
+      1    0.0%    0.0%  LazyCompile: *SimpleSlice native array.js:250:21
+      1    0.0%    0.0%  LazyCompile: *Receiver.processPacket /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Receiver.js:187:45
+      1    0.0%    0.0%  LazyCompile: *Receiver.flush /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Receiver.js:331:36
+      1    0.0%    0.0%  LazyCompile: *IsAccessorDescriptor native v8natives.js:183:30
+      1    0.0%    0.0%  LazyCompile: *InnerArrayForEach native array.js:924:27
+      1    0.0%    0.0%  LazyCompile: *Coin /Users/John/Desktop/web/pirates/app.js:994:20
+      1    0.0%    0.0%  LazyCompile: *Client.ondecoded /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:187:38
+      1    0.0%    0.0%  LazyCompile: *BufferPool.get /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/BufferPool.js:40:36
+      1    0.0%    0.0%  LazyCompile: *Buffer.readUInt32LE buffer.js:672:41
+      1    0.0%    0.0%  LazyCompile: *Buffer buffer.js:50:16
+      1    0.0%    0.0%  LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Receiver.js:37:14
+      1    0.0%    0.0%  LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2333:35
+      1    0.0%    0.0%  Handler: write
+      1    0.0%    0.0%  Handler: splice
+      1    0.0%    0.0%  Handler: slice
+      1    0.0%    0.0%  Handler: readUInt32LE
+      1    0.0%    0.0%  Handler: points
+      1    0.0%    0.0%  Handler: nlink
+      1    0.0%    0.0%  Handler: newListener
+      1    0.0%    0.0%  Handler: name
+      1    0.0%    0.0%  Handler: hasOwnProperty {NaN}
+      1    0.0%    0.0%  Handler: hasEnumerable
+      1    0.0%    0.0%  Handler: close
+      1    0.0%    0.0%  Handler: charAt
+      1    0.0%    0.0%  Handler: call {1}
+      1    0.0%    0.0%  Handler: call
+      1    0.0%    0.0%  Handler: Uint32Array
+      1    0.0%    0.0%  Handler: Object
+      1    0.0%    0.0%  Handler: Buffer {1}
+      1    0.0%    0.0%  Handler: Buffer
+      1    0.0%    0.0%  Handler: ArrayBuffer {1}
+      1    0.0%    0.0%  Handler: ArrayBuffer
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {9}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {5}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {4}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {23}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {22}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {1}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {19}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {17}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {16}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {15}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {14}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {13}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {12}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot {11}
+      1    0.0%    0.0%  Handler: An IC handler from the snapshot
+      1    0.0%    0.0%  Builtin: NotifyStubFailureSaveDoubles
+      1    0.0%    0.0%  Builtin: FunctionApply
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [Summary]:
+   ticks  total  nonlib   name
+   2287   28.4%   97.2%  JavaScript
+      0    0.0%    0.0%  C++
+     80    1.0%    3.4%  GC
+   5694   70.8%          Shared libraries
+     66    0.8%          Unaccounted
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 2.0% are not shown.
+
+   ticks parent  name
+   2989   37.1%  /usr/lib/system/libsystem_kernel.dylib
+     69    2.3%    /usr/local/bin/node
+      9   13.0%      LazyCompile: *onread net.js:509:16
+      3    4.3%      LazyCompile: ~Receiver.add /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/Receiver.js:78:34
+      3  100.0%        LazyCompile: ~realHandler /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/ws/lib/WebSocket.js:798:23
+      3  100.0%          LazyCompile: ~emitOne events.js:75:17
+      3  100.0%            LazyCompile: ~emit events.js:117:44
+      2    2.9%      LazyCompile: ~callback zlib.js:562:20
+      2    2.9%      LazyCompile: ~Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+      1   50.0%        LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+      1  100.0%          LazyCompile: *wrapper timers.js:274:19
+      1  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+      1   50.0%        LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+      1  100.0%          LazyCompile: *wrapper timers.js:274:19
+      1  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+      2    2.9%      LazyCompile: ~InnerArrayForEach native array.js:924:27
+      2  100.0%        LazyCompile: ~forEach native array.js:943:22
+      1   50.0%          LazyCompile: ~populateMaps /Users/John/Desktop/web/pirates/node_modules/express/node_modules/accepts/node_modules/mime-types/index.js:154:22
+      1  100.0%            Function: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/express/node_modules/accepts/node_modules/mime-types/index.js:1:11
+      1   50.0%          LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/engine.io/node_modules/accepts/node_modules/mime-types/index.js:9:34
+      1  100.0%            LazyCompile: ~InnerArrayForEach native array.js:924:27
+      2    2.9%      LazyCompile: ~DefineObjectProperty native v8natives.js:461:30
+      2  100.0%        LazyCompile: ~DefineOwnProperty native v8natives.js:630:27
+      2  100.0%          LazyCompile: ~defineProperty native v8natives.js:763:30
+      2  100.0%            LazyCompile: ~Module._compile module.js:366:37
+      2    2.9%      LazyCompile: ~Client.onclose /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:223:36
+      2  100.0%        LazyCompile: ~<anonymous> native v8natives.js:1199:16
+      2  100.0%          LazyCompile: ~emitTwo events.js:85:17
+      2  100.0%            LazyCompile: ~emit events.js:117:44
+
+   2567   31.9%  /usr/local/bin/node
+   2373   92.4%    /usr/local/bin/node
+    774   32.6%      LazyCompile: ~self.update /Users/John/Desktop/web/pirates/app.js:1003:25
+    728   94.1%        LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+    728  100.0%          LazyCompile: *wrapper timers.js:274:19
+    728  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+     39    5.0%        LazyCompile: *Coin.update /Users/John/Desktop/web/pirates/app.js:2567:23
+     39  100.0%          LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+     39  100.0%            LazyCompile: *wrapper timers.js:274:19
+    292   12.3%      LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+    292  100.0%        LazyCompile: *wrapper timers.js:274:19
+    292  100.0%          LazyCompile: listOnTimeout timers.js:56:23
+    244   10.3%      LazyCompile: *self.update /Users/John/Desktop/web/pirates/app.js:1200:33
+    234   95.9%        LazyCompile: *Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+    234  100.0%          LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+    234  100.0%            LazyCompile: *wrapper timers.js:274:19
+     10    4.1%        LazyCompile: ~Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+     10  100.0%          LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+     10  100.0%            LazyCompile: *wrapper timers.js:274:19
+     73    3.1%      LazyCompile: ~exports.runInThisContext vm.js:52:36
+     73  100.0%        LazyCompile: ~Module._compile module.js:366:37
+     52   71.2%          LazyCompile: ~Module._extensions..js module.js:414:37
+     52  100.0%            LazyCompile: ~Module.load module.js:334:33
+     21   28.8%          LazyCompile: *Module._extensions..js module.js:414:37
+     21  100.0%            LazyCompile: ~Module.load module.js:334:33
+     58    2.4%      LazyCompile: ~runInThisContext node.js:870:28
+     58  100.0%        LazyCompile: ~NativeModule.compile node.js:951:44
+     58  100.0%          LazyCompile: NativeModule.require node.js:885:34
+      7   12.1%            Function: ~<anonymous> module.js:1:11
+      6   10.3%            LazyCompile: ~listen net.js:1264:16
+      6   10.3%            Function: ~<anonymous> cluster.js:1:11
+      5    8.6%            Function: ~<anonymous> tty.js:1:11
+      5    8.6%            Function: ~<anonymous> tls.js:1:11
+      5    8.6%            Function: ~<anonymous> http.js:1:11
+      4    6.9%            Function: ~<anonymous> stream.js:1:11
+      3    5.2%            LazyCompile: ~startup node.js:13:19
+      2    3.4%            LazyCompile: ~startup.globalVariables node.js:179:37
+      2    3.4%            LazyCompile: Module._load module.js:271:24
+      2    3.4%            Function: ~<anonymous> fs.js:1:11
+      2    3.4%            Function: ~<anonymous> assert.js:1:11
+     52    2.2%      LazyCompile: ~fs.readSync fs.js:585:23
+     52  100.0%        LazyCompile: fs.readFileSync fs.js:384:27
+     40   76.9%          LazyCompile: ~Module._extensions..js module.js:414:37
+     40  100.0%            LazyCompile: ~Module.load module.js:334:33
+      9   17.3%          LazyCompile: *Module._extensions..js module.js:414:37
+      9  100.0%            LazyCompile: ~Module.load module.js:334:33
+      2    3.8%          LazyCompile: Module._extensions..json module.js:421:39
+      2  100.0%            LazyCompile: ~Module.load module.js:334:33
+     48    2.0%      LazyCompile: ~stringify native json.js:155:23
+     27   56.3%        LazyCompile: *encodeAsString /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/index.js:147:24
+     27  100.0%          LazyCompile: *Client.packet /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:140:35
+     27  100.0%            LazyCompile: *Socket.packet /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/socket.js:206:35
+     18   37.5%        LazyCompile: ~encodeAsString /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/index.js:147:24
+     12   66.7%          LazyCompile: *Encoder.encode /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/index.js:127:36
+     12  100.0%            LazyCompile: ~Client.packet /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:140:35
+      6   33.3%          LazyCompile: ~Encoder.encode /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-parser/index.js:127:36
+      6  100.0%            LazyCompile: ~Client.packet /Users/John/Desktop/web/pirates/node_modules/socket.io/lib/client.js:140:35
+      2    4.2%        LazyCompile: ~Module._findPath module.js:128:28
+      1   50.0%          LazyCompile: ~Module._resolveFilename module.js:311:35
+      1  100.0%            LazyCompile: Module._load module.js:271:24
+      1   50.0%          LazyCompile: *Module._resolveFilename module.js:311:35
+      1  100.0%            LazyCompile: Module._load module.js:271:24
+      1    2.1%        LazyCompile: has /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/lib/json3.js:42:15
+      1  100.0%          LazyCompile: has /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/lib/json3.js:42:15
+      1  100.0%            Function: <anonymous> /Users/John/Desktop/web/pirates/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/lib/json3.js:2:12
+
+   1115   13.9%  LazyCompile: *doPolygonsIntersect /Users/John/Desktop/web/pirates/app.js:935:29
+   1067   95.7%    LazyCompile: *self.update /Users/John/Desktop/web/pirates/app.js:1200:33
+   1044   97.8%      LazyCompile: *Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+   1044  100.0%        LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+   1044  100.0%          LazyCompile: *wrapper timers.js:274:19
+   1044  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+     23    2.2%      LazyCompile: ~Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+     23  100.0%        LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+     23  100.0%          LazyCompile: *wrapper timers.js:274:19
+     23  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+     48    4.3%    LazyCompile: ~self.update /Users/John/Desktop/web/pirates/app.js:1200:33
+     34   70.8%      LazyCompile: ~Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+     26   76.5%        LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+     26  100.0%          LazyCompile: *wrapper timers.js:274:19
+     26  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+      8   23.5%        LazyCompile: ~<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+      8  100.0%          LazyCompile: *wrapper timers.js:274:19
+      8  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+     14   29.2%      LazyCompile: *Player.update /Users/John/Desktop/web/pirates/app.js:2427:25
+     14  100.0%        LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+     14  100.0%          LazyCompile: *wrapper timers.js:274:19
+     14  100.0%            LazyCompile: listOnTimeout timers.js:56:23
+
+    163    2.0%  LazyCompile: *<anonymous> /Users/John/Desktop/web/pirates/app.js:2588:21
+    163  100.0%    LazyCompile: *wrapper timers.js:274:19
+    163  100.0%      LazyCompile: listOnTimeout timers.js:56:23
+
