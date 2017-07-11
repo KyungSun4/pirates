@@ -23,17 +23,17 @@ var mapw = 10000;
 var maph = 10000;
 
 var ctypes = [{
-    range: 1000, //machine gun
+    range: 500, //machine gun
     btype: 1,
     type: 0,
     reload: 19,
 }, {
-    range: 1000, //big cannon
+    range: 500, //big cannon
     btype: 0,
     type: 1,
     reload: 30,
 }, {
-    range: 1000, //small canon
+    range: 500, //small canon
     btype: 0,
     type: 2,
     reload: 20,
@@ -104,7 +104,7 @@ var types = [{
     accel: 2,
     drag: .2,
     maxSpd: 10,
-    rotaccel: 1,
+    rotaccel: 3,
     rotdrag: 1,
     maxrot: 10,
     handling: 10,
@@ -126,9 +126,9 @@ var types = [{
     mass: 1,
     health: 100,
     maxhealth: 100,
-    accel: 2,
+    accel: 1,
     drag: .2,
-    maxSpd: 10,
+    maxSpd: 30,
     rotaccel: 1,
     rotdrag: 1,
     maxrot: 10,
