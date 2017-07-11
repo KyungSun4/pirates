@@ -1662,14 +1662,6 @@ var Player = function(id, name) {
                         }
                     }
                     */
-
-
-
-
-
-
-
-
                     self.points = [{
                         x: self.x + (self.width) / 2 * Math.cos(TO_RADIANS * self.angle) - (-self.height / 2) * Math.sin(self.angle * TO_RADIANS),
                         y: self.y + (self.width) / 2 * Math.sin(TO_RADIANS * self.angle) + (-self.height / 2) * Math.cos(self.angle * TO_RADIANS)
@@ -1688,8 +1680,6 @@ var Player = function(id, name) {
                         Wake((self.points[3].x + self.points[2].x) / 2 + ((Math.random() + Math.random()) / 2 - .5) * self.height, (self.points[3].y + self.points[2].y) / 2 + ((Math.random() + Math.random()) / 2 - .5) * self.height)
                             //Wake(this.x + (Math.cos(TO_RADIANS * (self.angle-180)) * self.width / 2), this.y + (Math.sin(TO_RADIANS * (self.angle-180)) * self.height / 2));
                             //Wake(self.x + (-self.width) / 2 * Math.cos(TO_RADIANS * self.angle) - (-self.height / 2) * Math.sin(self.angle * TO_RADIANS), self.y + (-self.width) / 2 * Math.sin(TO_RADIANS * self.angle) + (-self.height / 2) * Math.cos(self.angle * TO_RADIANS));
-
-
                         //Wake(self.x + Math.random() * self.height / 2, self.y + Math.random() * self.height / 2);
                     }
                     self.angle += self.rotvel;
@@ -1700,7 +1690,6 @@ var Player = function(id, name) {
                         for (var i in player.Ship.list) {
                             if (player.Ship.list[i].id !== self.id) {
                                 var ship = player.Ship.list[i];
-
                                 if (Math.sqrt(Math.pow(self.x - ship.x, 2) + Math.pow(self.y - ship.y, 2)) <= self.width + ship.width && doPolygonsIntersect(self.points, ship.points)) {
                                     //console.log(i);
                                     var crashangle = Math.atan2(ship.y - self.y, ship.x - self.x);
@@ -1712,12 +1701,9 @@ var Player = function(id, name) {
                                     self.velx = -(ship.mass / self.mass) * Math.cos(crashangle);
                                     self.vely = -(ship.mass / self.mass) * Math.sin(crashangle);
                                     self.vel = 0;
-
                                 }
                             }
                         }
-
-
                     }
 
                     if (self.x > mapw - (self.width / 2)) {
@@ -1797,11 +1783,6 @@ var Player = function(id, name) {
                         }
                     }
 
-
-
-
-
-
                     /*/
                                 if (self.left && self.vel>.01) {
                                     self.angle -= self.handling;
@@ -1811,7 +1792,6 @@ var Player = function(id, name) {
                                     self.angle += self.handling;
                                 }
                                 /*/
-
 
                 },
                 Cannon: function(shipid, playerid, dist, ang) {
