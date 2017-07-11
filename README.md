@@ -10,3 +10,5 @@ As the development of this game progresses the attributes of ships will be updat
 Future game modes are: Capture the flag, and island capture.
 In capture the flag players would randomly be assigned to two teams which would work together to reach the oposing teams flag and return in to their home island.
 In island capture teams would work together to maintain control of islands by keeping thier own ships within a dictated proximity to each island. The goal of this game would be for a team to control as many islands as possible.
+
+The game can currelty be played by navigating to the address 52.168.32.235:2000
