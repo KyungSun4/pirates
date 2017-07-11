@@ -1,5 +1,15 @@
 console.log('hello wordl by krys and john');
-
+/*
+Krys, Adjsut these varibles for ships:
+health
+maxhealth
+accel
+drag
+maxSpdrotaccel
+rotdrag
+maxrot
+worth
+*/
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
