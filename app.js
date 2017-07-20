@@ -36,7 +36,7 @@ var ctypes = [{
     range: 500, //machine gun
     btype: 1,
     type: 0,
-    reload: 19,
+    reload: 5,
 }, {
     range: 500, //big cannon
     btype: 0,
@@ -48,10 +48,10 @@ var ctypes = [{
     type: 2,
     reload: 20,
 }, {
-    range: 1000, //catapult
+    range: 1500, //catapult
     btype: 0,
     type: 3,
-    reload: 20,
+    reload: 100,
 }, {
     range: 1000, //med missle
     btype: 1,
@@ -61,19 +61,19 @@ var ctypes = [{
     range: 1000, //big missle
     btype: 1,
     type: 4,
-    reload: 10,
+    reload: 50,
 }, {
     range: 1000, //yammato cannon
     btype: 1,
     type: 5,
-    reload: 10,
+    reload: 70,
 
 }, ];
 var btypes = [{
     width: 8,
     height: 8,
-    damage: 10,
-    speed: 10,
+    damage: 2,
+    speed: 15,
 }, {
     width: 12,
     height: 4,
@@ -1939,12 +1939,12 @@ var Player = function(id, name) {
                         angle: 0,
                         distangle: 0,
                         rotdrag: 1,
-                        maxrot: 10,
+                        maxrot: 5,
                         rotaccel: 1,
                         width: 38,
                         height: 30,
                         type: 0,
-                        worth: 10,
+                        worth: 50,
                         frame: 1,
                         time: 0,
                         x: 0, ///Player.list[playerid].Ship.list[shipid].x,
