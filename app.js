@@ -905,10 +905,18 @@ var types = [{
     frame: 1,
     maxPlanes: 0,
     cannons: [{
-        type: 0,
-        dist: 20,
+        type: 5,
+        dist: 88,
+        ang: 180,
+    },{
+        type: 5,
+        dist: 34,
         ang: 0,
-    }],
+    },{
+        type: 5,
+        dist: 144,
+        ang: 0,
+    }]
 }, {
     type: 26, //YAMATO
     width: 298,
