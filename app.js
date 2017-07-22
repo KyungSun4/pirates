@@ -113,7 +113,7 @@ var types = [{
   maxhealth: 100,
   accel: 2,
   drag: .2,
-  maxSpd: 5,
+  maxSpd: 8,
   rotaccel: 1,
   rotdrag: 1,
   maxrot: 7,
@@ -139,8 +139,8 @@ var types = [{
   accel: 1,
   drag: .2,
   maxSpd: 15,
-  rotaccel: 1,
-  rotdrag: 5,
+  rotaccel: .5,
+  rotdrag: 8,
   maxrot: 10,
   handling: 10,
   points: [],
@@ -163,7 +163,7 @@ var types = [{
   maxhealth: 200,
   accel: .1,
   drag: .1,
-  maxSpd: 5,
+  maxSpd: 8,
   rotaccel: .1,
   rotdrag: 10,
   maxrot: 3,
@@ -188,10 +188,10 @@ var types = [{
   maxhealth: 200,
   accel: .5,
   drag: .2,
-  maxSpd: 25,
-  rotaccel: .5,
+  maxSpd: 23,
+  rotaccel: .3,
   rotdrag: 10,
-  maxrot: 1,
+  maxrot: 1.3,
   handling: 10,
   points: [],
   reload: 30,
@@ -914,8 +914,56 @@ var types = [{
     ang: 0,
   }, {
     type: 5,
-    dist: 144,
+    dist: 72,
     ang: 0,
+  }, {
+    type: 4,
+    dist: 17.2046505340852535434589470701,
+    ang: 305.53767779197438,
+  }, {
+    type: 4,
+    dist: 17.2046505340852535434589470701,
+    ang: 54.46232220802562,
+  }, {
+    type: 4,
+    dist: 25,
+    ang: 130.601294645004465,
+  }, {
+    type: 4,
+    dist: 25,
+    ang: 229.398705354995535,
+  }, {
+    type: 4,
+    dist: 44,
+    ang: 154.31829393071095,
+  }, {
+    type: 4,
+    dist: 44,
+    ang: 205.68170606928905,
+  }, {
+    type: 4,
+    dist: 70,
+    ang: 167.03549133958074,
+  }, {
+    type: 4,
+    dist: 70,
+    ang: 192.964508660419247,
+  }, {
+    type: 0,
+    dist: 12,
+    ang: 124,
+  }, {
+    type: 0,
+    dist: 12,
+    ang: 240,
+  }, {
+    type: 0,
+    dist: 33,
+    ang: 208,
+  }, {
+    type: 0,
+    dist: 33,
+    ang: 150
   }]
 }, {
   type: 26, //YAMATO
