@@ -20,7 +20,7 @@ app.get('/', function(reg, res) {
   res.sendFile(__dirname + '/client/mobile.html');
 });
 app.use('/client', express.static(__dirname + '/client'));
-var port = PORT || 2000;
+var port = process.env.PORT || 2000;
 serv.listen(port);
 
 console.log('MISSION GO')
