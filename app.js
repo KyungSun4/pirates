@@ -104,7 +104,7 @@ var ptypes = [{
 
 }, ];
 
-var types = require('shipVars/shipTypes');
+var types = require('./shipVars/shipTypes');
 
 var getRandomColor = function() {
   var letters = '0123456789ABCDEF';
