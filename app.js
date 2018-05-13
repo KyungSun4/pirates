@@ -2306,8 +2306,8 @@ Player.onconnect = function(socket, name) {
   player.selected = ship.id;
   console.log(player.selected);
 
-  ship.x = Math.random() * 100;
-  ship.y = Math.random() * 100;
+  ship.x = Math.random() * 10000;
+  ship.y = Math.random() * 10000;
   ship.placed = true;
   ship.in = true;
   socket.start = true;
