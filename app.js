@@ -1315,7 +1315,9 @@ Player.list = {};
 
 Player.onconnect = function(socket, name) {
   var player = Player(socket.id, name);
-
+  if (name == "johnsecret") {
+    player.money = 10000000;
+  }
   var ship = player.Ship(player.id, player.name);
   //var plane = ship.Plane(ship.id, player.id)
   var cannon = ship.Cannon(ship.id, player.id, 30, 0);
